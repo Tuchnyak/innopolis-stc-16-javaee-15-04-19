@@ -8,13 +8,14 @@ import java.io.IOException;
  * Смоделировав ошибку «NullPointerException»
  * Смоделировав ошибку «ArrayIndexOutOfBoundsException»
  * Вызвав свой вариант ошибки через оператор throw
- *
+ * <p>
+ * Выполнил:
  * Щенников Г. О.
  */
 
 public class HelloWorld {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         HelloWorld hw = new HelloWorld();
 
@@ -32,15 +33,10 @@ public class HelloWorld {
         } catch (RuntimeException e) {
             printMessage();
             e.printStackTrace();
+            System.out.println();
         }
 
-        try {
-            hw.generateMyThrow();
-
-        } catch (IOException e) {
-            printMessage();
-            e.printStackTrace();
-        }
+        hw.generateMyThrow();
 
     }
 
@@ -66,6 +62,7 @@ public class HelloWorld {
 
     /**
      * Вызов своего варианта ошибки с использованием throw
+     *
      * @throws IOException пробрасывание в учебных целях
      */
     private void generateMyThrow() throws IOException {
