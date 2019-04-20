@@ -2,7 +2,9 @@ package ru.innopolis.tasks.hw02.task03;
 
 import ru.innopolis.tasks.hw02.task03.entities.Person;
 import ru.innopolis.tasks.hw02.task03.entities.Sex;
+import ru.innopolis.tasks.hw02.task03.sorters.Sorter;
 import ru.innopolis.tasks.hw02.task03.sorters.SorterByComparator;
+import ru.innopolis.tasks.hw02.task03.sorters.SorterQSort;
 
 import java.security.SecureRandom;
 import java.util.Arrays;
@@ -32,7 +34,7 @@ import java.util.Arrays;
  */
 public class PeopleSorting {
 
-    private static final int AMOUNT_OF_PEOPLE = 10000;
+    private static final int AMOUNT_OF_PEOPLE = 5;
 
     public static void main(String[] args) {
 
@@ -42,10 +44,11 @@ public class PeopleSorting {
 
         printPeople(people);
 
-        SorterByComparator sorterByComparator = new SorterByComparator();
-        sorterByComparator.sortPeople(Arrays.asList(people));
+//        Sorter sorterByComparator = new SorterByComparator();
+//        sorterByComparator.sortPeople(people);
+        Sorter sorterQSort = new SorterQSort();
 
-        printPeople(people);
+        printPeople(sorterQSort.sortPeople(people));
 
     }
 
