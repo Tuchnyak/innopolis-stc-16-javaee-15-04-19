@@ -34,7 +34,7 @@ import java.util.Arrays;
  */
 public class PeopleSorting {
 
-    private static final int AMOUNT_OF_PEOPLE = 5;
+    private static final int AMOUNT_OF_PEOPLE = 10;
 
     public static void main(String[] args) {
 
@@ -48,7 +48,7 @@ public class PeopleSorting {
 //        sorterByComparator.sortPeople(people);
         Sorter sorterQSort = new SorterQSort();
 
-        printPeople(sorterQSort.sortPeople(people));
+        printPeople(sorterQSort.sortPeople(Arrays.asList(people)));
 
     }
 

@@ -9,19 +9,19 @@ import java.util.*;
 public class SorterByComparator implements Sorter {
 
     @Override
-    public Person[] sortPeople(Person[] people) {
+    public Person[] sortPeople(List<Person> people) {
 
         long start = System.currentTimeMillis();
 
-        Arrays.asList(people).sort(new ComparatorName());
-        Arrays.asList(people).sort(new ComparatorAge());
-        Arrays.asList(people).sort(new ComparatorSex());
+        people.sort(new ComparatorName());
+        people.sort(new ComparatorAge());
+        people.sort(new ComparatorSex());
 
         long end = System.currentTimeMillis();
 
         System.out.println("Comparator time: " + (end - start) + " milliseconds");
 
-        return people;
+        return people.toArray(new Person[people.size()]);
     }
 
     private class ComparatorSex implements Comparator<Person> {
