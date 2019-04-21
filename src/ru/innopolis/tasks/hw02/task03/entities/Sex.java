@@ -7,6 +7,7 @@ import java.security.SecureRandom;
  */
 public class Sex {
 
+    // константы признаков пола
     public static final String MAN = "man";
     public static final String WOMAN = "woman";
 
