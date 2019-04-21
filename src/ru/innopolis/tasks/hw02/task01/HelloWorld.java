@@ -21,19 +21,14 @@ public class HelloWorld {
 
         try {
             hw.generateNPE();
-
         } catch (RuntimeException e) {
-            printMessage();
             e.printStackTrace();
         }
 
         try {
             hw.generateArrayIndexOutOfBoundsException();
-
         } catch (RuntimeException e) {
-            printMessage();
             e.printStackTrace();
-            System.out.println();
         }
 
         hw.generateMyThrow();
@@ -68,15 +63,6 @@ public class HelloWorld {
     private void generateMyThrow() throws IOException {
 
         throw new IOException();
-
-    }
-
-    /**
-     * Вспомогательный метод для вывода фразы на экран
-     */
-    private static void printMessage() {
-
-        System.out.println("\nВот что случилось:");
 
     }
 
