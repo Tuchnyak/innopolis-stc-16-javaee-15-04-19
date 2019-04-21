@@ -9,8 +9,8 @@ import java.io.IOException;
  * Смоделировав ошибку «ArrayIndexOutOfBoundsException»
  * Вызвав свой вариант ошибки через оператор throw
  * <p>
- * Выполнил:
- * Щенников Г. О.
+ *
+ * @author Georgii Shchennikov
  */
 
 public class HelloWorld {
