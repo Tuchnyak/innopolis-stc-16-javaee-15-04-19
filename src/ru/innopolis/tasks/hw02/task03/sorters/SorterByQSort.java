@@ -21,6 +21,11 @@ public class SorterByQSort implements Sorter {
     }
 
 
+    /**
+     * Метод быстрой сортировки
+     * @param people коллекция для сортировки
+     * @return отсортированная коллекция
+     */
     private List<Person> qSort(List<Person> people) {
 
         if (people.size() < 2) {

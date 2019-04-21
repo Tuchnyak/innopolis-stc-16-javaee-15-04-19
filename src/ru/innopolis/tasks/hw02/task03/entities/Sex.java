@@ -2,6 +2,9 @@ package ru.innopolis.tasks.hw02.task03.entities;
 
 import java.security.SecureRandom;
 
+/**
+ * Класс для организации соответствующего поля в Person
+ */
 public class Sex {
 
     public static final String MAN = "man";
@@ -17,6 +20,10 @@ public class Sex {
         return gender;
     }
 
+    /**
+     * Метод для генерации случайного пола
+     * @return случайно сгенерированный пол Sex.WOMAN или Sex.MAN
+     */
     public static String getRandomGender() {
         SecureRandom random = new SecureRandom();
         int sign = random.nextInt(2);

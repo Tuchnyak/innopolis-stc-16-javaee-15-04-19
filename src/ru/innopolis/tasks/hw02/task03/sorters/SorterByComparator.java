@@ -24,6 +24,10 @@ public class SorterByComparator implements Sorter {
         return people.toArray(new Person[people.size()]);
     }
 
+
+    /**
+     * Класс-компаратор для сортировки по типу Sex
+     */
     private class ComparatorSex implements Comparator<Person> {
 
         @Override
@@ -39,6 +43,10 @@ public class SorterByComparator implements Sorter {
 
     }
 
+
+    /**
+     * Класс-компаратор для сортировки по возрасту
+     */
     private class ComparatorAge implements Comparator<Person> {
 
         @Override
@@ -51,6 +59,10 @@ public class SorterByComparator implements Sorter {
 
     }
 
+
+    /**
+     * Класс-компаратор для сортировки по имени
+     */
     private class ComparatorName implements Comparator<Person> {
 
         @Override

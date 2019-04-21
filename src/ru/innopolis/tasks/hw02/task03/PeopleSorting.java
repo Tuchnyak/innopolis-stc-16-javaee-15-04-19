@@ -34,7 +34,11 @@ import java.util.Arrays;
  */
 public class PeopleSorting {
 
-    private static final int AMOUNT_OF_PEOPLE = 10000;
+    /**
+     * Константа для хранения количества объектов Person
+     */
+    private static final int AMOUNT_OF_PEOPLE = 10001;
+
 
     public static void main(String[] args) {
 
@@ -55,6 +59,10 @@ public class PeopleSorting {
     }
 
 
+    /**
+     * Метод для вывода в консоль массива
+     * @param people массив для вывода
+     */
     private static void printPeople(Person[] people) {
         System.out.println("\n************");
         for (Person p : people) {
@@ -63,6 +71,10 @@ public class PeopleSorting {
     }
 
 
+    /**
+     * Метод для наполнения массива объектами Person со случайным содержимым
+     * @param people массив для заполнения
+     */
     private static void fillPeople(Person[] people) {
 
         SecureRandom random = new SecureRandom();
@@ -83,6 +95,11 @@ public class PeopleSorting {
     }
 
 
+    /**
+     * Метод для генерации случайной строки
+     * @param random объект SecureRandom для генерации случайного целого числа
+     * @return случайная строка
+     */
     private static String generateNamePart(SecureRandom random) {
 
         StringBuilder sb = new StringBuilder();
