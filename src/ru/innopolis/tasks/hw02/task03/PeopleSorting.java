@@ -4,7 +4,7 @@ import ru.innopolis.tasks.hw02.task03.entities.Person;
 import ru.innopolis.tasks.hw02.task03.entities.Sex;
 import ru.innopolis.tasks.hw02.task03.sorters.Sorter;
 import ru.innopolis.tasks.hw02.task03.sorters.SorterByComparator;
-import ru.innopolis.tasks.hw02.task03.sorters.SorterQSort;
+import ru.innopolis.tasks.hw02.task03.sorters.SorterByQSort;
 
 import java.security.SecureRandom;
 import java.util.Arrays;
@@ -34,7 +34,7 @@ import java.util.Arrays;
  */
 public class PeopleSorting {
 
-    private static final int AMOUNT_OF_PEOPLE = 10;
+    private static final int AMOUNT_OF_PEOPLE = 10000;
 
     public static void main(String[] args) {
 
@@ -42,17 +42,19 @@ public class PeopleSorting {
 
         fillPeople(people);
 
-        printPeople(people);
+        System.out.println("===>>> Быстрая сортировка:");
+        Sorter sorterQSort = new SorterByQSort();
+        Person[] peopleSortedByQSort = sorterQSort.sortPeople(Arrays.asList(people));
+        printPeople(peopleSortedByQSort);
 
-//        Sorter sorterByComparator = new SorterByComparator();
-//        sorterByComparator.sortPeople(people);
-        Sorter sorterQSort = new SorterQSort();
-
-        printPeople(sorterQSort.sortPeople(Arrays.asList(people)));
+        System.out.println("\n===>>> Сортировка компараторами:");
+        Sorter sorterComparator = new SorterByComparator();
+        Person[] peopleSortedByComparator = sorterComparator.sortPeople(Arrays.asList(people));
+        printPeople(peopleSortedByComparator);
 
     }
 
-    @Deprecated
+
     private static void printPeople(Person[] people) {
         System.out.println("\n************");
         for (Person p : people) {
@@ -92,5 +94,6 @@ public class PeopleSorting {
 
         return sb.toString();
     }
+
 
 }

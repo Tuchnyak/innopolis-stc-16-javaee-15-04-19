@@ -2,41 +2,45 @@ package ru.innopolis.tasks.hw02.task03.sorters;
 
 import ru.innopolis.tasks.hw02.task03.entities.Person;
 
-import java.security.SecureRandom;
 import java.util.*;
 
-public class SorterQSort implements Sorter {
+public class SorterByQSort implements Sorter {
 
     @Override
     public Person[] sortPeople(List<Person> people) {
 
         long start = System.currentTimeMillis();
 
-        people = sortByAge(people);
+        people = qSort(people);
 
         long end = System.currentTimeMillis();
 
-        System.out.println("Quick sort time: " + (end - start) + " milliseconds");
+        System.out.println("\nQuick sort time: " + (end - start) + " milliseconds");
 
         return people.toArray(new Person[people.size()]);
     }
 
-    private List<Person> sortByAge(List<Person> people) {
+
+    private List<Person> qSort(List<Person> people) {
 
         if (people.size() < 2) {
 
             return people;
         } else {
 
-            int randomIndex = (int)(Math.random() * people.size());
+            List<Person> innerList = new LinkedList<>(people);
 
-            Person pivotPerson = people.get(randomIndex);
+            int randomIndex = (int)(Math.random() * innerList.size());
+
+            Person pivotPerson = innerList.get(randomIndex);
+
+            innerList.remove(randomIndex);
 
             List<Person> leftPart = new LinkedList<>();
             List<Person> rightPart = new LinkedList<>();
 
-            for (Person p : people) {
-                if (p.getAge() > pivotPerson.getAge()) {
+            for (Person p : innerList) {
+                if (p.compareTo(pivotPerson) <= 0) {
                     leftPart.add(p);
                 } else {
                     rightPart.add(p);
@@ -45,9 +49,9 @@ public class SorterQSort implements Sorter {
             }
 
             List<Person> sewedList = new LinkedList<>();
-
-            sewedList.addAll(sortByAge(leftPart));
-            sewedList.addAll(sortByAge(rightPart));
+            sewedList.addAll(qSort(leftPart));
+            sewedList.add(pivotPerson);
+            sewedList.addAll(qSort(rightPart));
 
             return sewedList;
         }
