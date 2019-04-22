@@ -17,28 +17,26 @@ public class HelloWorld {
 
     public static void main(String[] args) throws IOException {
 
-        HelloWorld hw = new HelloWorld();
-
         try {
-            hw.generateNPE();
+            generateNPE();
         } catch (RuntimeException e) {
             e.printStackTrace();
         }
 
         try {
-            hw.generateArrayIndexOutOfBoundsException();
+            generateArrayIndexOutOfBoundsException();
         } catch (RuntimeException e) {
             e.printStackTrace();
         }
 
-        hw.generateMyThrow();
+        generateMyThrow();
 
     }
 
     /**
      * Моделирование ошибки NullPointerException
      */
-    private void generateNPE() {
+    private static void generateNPE() {
 
         String str = null;
         str.length();
@@ -48,7 +46,7 @@ public class HelloWorld {
     /**
      * Моделирование ошибки ArrayIndexOutOfBoundsException
      */
-    private void generateArrayIndexOutOfBoundsException() {
+    private static void generateArrayIndexOutOfBoundsException() {
 
         int[] arr = new int[5];
         arr[5] = 1;
@@ -60,7 +58,7 @@ public class HelloWorld {
      *
      * @throws IOException пробрасывание в учебных целях
      */
-    private void generateMyThrow() throws IOException {
+    private static void generateMyThrow() throws IOException {
 
         throw new IOException();
 
