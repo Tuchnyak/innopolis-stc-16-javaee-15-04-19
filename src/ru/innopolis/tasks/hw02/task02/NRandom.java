@@ -17,7 +17,7 @@ public class NRandom {
     /**
      * Константа для числа генерируемых элементов
      */
-    private static final int N_RANDOM_NUMBERS = 1000000;
+    private static final int N_RANDOM_NUMBERS = 100000;
 
     public static void main(String[] args) {
 
@@ -46,8 +46,8 @@ public class NRandom {
                     System.out.println(q);
                 }
 
-            } catch (Exception ignored) {
-
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
 
         }
@@ -62,9 +62,9 @@ public class NRandom {
      * @return результат вычисления корня, приведённый к int
      * @throws Exception при отрицательном i
      */
-    private static int getRoot(int i) throws Exception {
+    private static int getRoot(int i) throws NumberFormatException {
 
-        if (i < 0) throw new Exception();
+        if (i < 0) throw new NumberFormatException("Отрицательное значение!");
 
         return (int) Math.sqrt(i);
     }
