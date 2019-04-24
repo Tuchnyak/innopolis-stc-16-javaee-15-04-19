@@ -2,8 +2,14 @@ package ru.innopolis.tasks.hw03.task01;
 
 import java.util.*;
 
+/**
+ * Класс содержащий уникальные цифроввые значения
+ */
 public class MathBox {
 
+    /**
+     * Хранилиище уникальных цифровых значений
+     */
     private Set<Number> numbers;
 
     public MathBox(Number[] numbers) {
@@ -11,6 +17,10 @@ public class MathBox {
     }
 
 
+    /**
+     * Расчёт суммы значений
+     * @return сумма всех элементов
+     */
     public Double summator() {
 
         double summ = 0d;
@@ -22,6 +32,10 @@ public class MathBox {
         return summ;
     }
 
+    /**
+     * Деление всех элементов на один делитель
+     * @param arg общий делитель
+     */
     public void splitter(int arg) {
 
         Set<Number> tmpSet = new HashSet<>();
@@ -34,6 +48,10 @@ public class MathBox {
 
     }
 
+    /**
+     * Находит и удаляет целочисленное значение
+     * @param i значение для удаления
+     */
     public void integerDeleter(Integer i) {
 
             Iterator<Number> iterator = numbers.iterator();

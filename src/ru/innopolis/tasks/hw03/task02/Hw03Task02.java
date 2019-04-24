@@ -20,6 +20,7 @@ public class Hw03Task02 {
 
     public static void main(String[] args) {
 
+        System.out.println("Пробуем с числами");
         List<Integer> list = new ArrayList<>(Arrays.asList(0, 1, 2));
 
         Integer i = 9;
@@ -35,7 +36,7 @@ public class Hw03Task02 {
         ob.deleteObject(1);
         System.out.println(ob.dump());
 
-
+        System.out.println("Пробуем с Person");
         List<Person> people = new ArrayList<>();
         Person chandler = new Person(30, new Sex(Sex.MAN), "Chandler");
         Person janice = new Person(30, new Sex(Sex.WOMAN), "Janice");
