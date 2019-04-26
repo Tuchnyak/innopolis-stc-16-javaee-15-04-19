@@ -3,6 +3,9 @@ package ru.innopolis.tasks.hw04.comparators;
 import java.util.Comparator;
 import java.util.Map;
 
+/**
+ * Компаратор для сравнения по кличкам в составе Map.Entry
+ */
 public class ComparatorByNickNameInMapEntry implements Comparator<Map.Entry<Integer, String>> {
 
     @Override

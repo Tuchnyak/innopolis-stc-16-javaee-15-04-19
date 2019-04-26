@@ -22,8 +22,19 @@ import java.util.*;
  */
 public class AnimalFiles {
 
+    /**
+     * Общий счёт записей в картотеке
+     */
     private static int INDEX_COUNT = 0;
+
+    /**
+     * Отображение для хранения записей о животных с уникальными ID
+     */
     private static Map<Integer, Animal> animals;
+
+    /**
+     * Отображение, параллельное основному, для получения ID при поиске по кличке
+     */
     private static Map<Integer, String> nicknames;
 
     static {
@@ -38,7 +49,7 @@ public class AnimalFiles {
         Util.printAnimals();
         System.out.println();
 
-        Animal a1 = new Animal("Barsik", 5d, new Person(25, new Sex(Sex.WOMAN), "Babushka Klava"));
+        Animal a1 = new Animal("Barsik", 5d, new Person(78, new Sex(Sex.WOMAN), "Babushka Klava"));
         Animal a2 = new Animal("Pogrom", 3.5d, new Person(25, new Sex(Sex.MAN), "Semyon Polishchuk"));
         Animal a3 = new Animal("Marsel", 1.5, new Person(25, new Sex(Sex.MAN), "Ross Geller"));
         Animal a4 = new Animal("Barsik", 4.5, new Person(25, new Sex(Sex.MAN), "Dmitry Potapenko"));
@@ -75,23 +86,33 @@ public class AnimalFiles {
         }
         System.out.println();
 
-        System.out.println("Попробуем отредактировать записб №2");
+        System.out.println("Попробуем отредактировать запись №2");
         Util.editRecordById(2, "Marsel Star", 2d, "Excecutive producer", new Sex(Sex.MAN), 46);
         Util.printAnimals();
         System.out.println();
 
-        System.out.println("Попробуем добавить животное во второй раз");
+        System.out.println("Попробуем добавить животное во второй раз в виде нового объекта");
+        Animal a2Again = new Animal("Pogrom", 3.5d, new Person(25, new Sex(Sex.MAN), "Semyon Polishchuk"));
         try {
-            Util.addAnimalToFiles(a2);
+            Util.addAnimalToFiles(a2Again);
         } catch (InvalidObjectException e) {
             e.printStackTrace();
         }
 
+
     }
 
 
+    /**
+     * Вложенный класс для обеспечения функциональности картотеки
+     */
     private static class Util {
 
+        /**
+         * Метод добавления новой записи о животтном
+         * @param animal объект для добавления
+         * @throws InvalidObjectException исключение, генерирующееся при наличии записи в картотеке
+         */
         public static void addAnimalToFiles(Animal animal) throws InvalidObjectException {
 
             if (!animals.values().contains(animal)) {
@@ -105,6 +126,11 @@ public class AnimalFiles {
 
         }
 
+        /**
+         * Поиск о картотеке всех животных с определённой кличкой
+         * @param nickname клички для поиска
+         * @return список найденных животных с указанной кличкой или пустой список
+         */
         public static List<Animal> searchRecordByNickname(String nickname) {
 
             List<Animal> listToReturn = new ArrayList<>();
@@ -141,6 +167,12 @@ public class AnimalFiles {
             return listToReturn;
         }
 
+        /**
+         * Вспомогательный метод бинарного поиска для нахождения совпадения по кличке
+         * @param nickname кличка для поиска
+         * @param nicknamesEntries список для поиска
+         * @return позиция в списке, -1 - если кличка не найдена в списке
+         */
         private static int findFirstEntryPositionByBinarySearch(String nickname, List<Map.Entry<Integer, String>> nicknamesEntries) {
 
             int low = 0;
@@ -161,6 +193,15 @@ public class AnimalFiles {
             return -1;
         }
 
+        /**
+         * Редактирование записи о животном по ID
+         * @param animalId номер записи для получения нужного объекта
+         * @param nickName новая кличка
+         * @param weight новый вес
+         * @param ownerName новое имя владельца
+         * @param ownerSex новый пол владельца
+         * @param ownerAge новый возраст владельца
+         */
         private static void editRecordById(int animalId, String nickName, double weight, String ownerName, Sex ownerSex, int ownerAge) {
 
             Animal animalToEdit = animals.get(animalId);
@@ -175,6 +216,9 @@ public class AnimalFiles {
 
         }
 
+        /**
+         * Вывод в консоль отсортированного списка записей о животных
+         */
         private static void printAnimals() {
 
             List<Animal> list = new ArrayList<>(animals.values());

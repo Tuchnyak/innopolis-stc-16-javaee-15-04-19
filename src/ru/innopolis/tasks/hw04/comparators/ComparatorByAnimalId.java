@@ -4,6 +4,9 @@ import ru.innopolis.tasks.hw04.entities.Animal;
 
 import java.util.Comparator;
 
+/**
+ * Компаратор для сравнения по ID объектов Animal
+ */
 public class ComparatorByAnimalId implements Comparator<Animal> {
 
     @Override

@@ -5,6 +5,7 @@ import ru.innopolis.tasks.hw02.task03.entities.Sex;
 /**
  * Класс Person характеризуется полями age (возраст, целое число 0-100),
  * sex (пол – объект класса Sex со строковыми константами внутри MAN, WOMAN), name (имя - строка).
+ * Убрано генерирование исключения при сравнении одинаковых объектов
  */
 
 public class Person implements Comparable<Person> {

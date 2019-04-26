@@ -4,6 +4,9 @@ import ru.innopolis.tasks.hw04.entities.Animal;
 
 import java.util.Comparator;
 
+/**
+ * Компаратор для сравнения по весам объектов Animal
+ */
 public class ComparatorByAnimalWeight implements Comparator<Animal> {
 
     @Override

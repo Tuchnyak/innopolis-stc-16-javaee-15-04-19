@@ -59,8 +59,10 @@ public class Animal {
         if (o == null || getClass() != o.getClass()) return false;
         Animal animal = (Animal) o;
         return Double.compare(animal.weight, weight) == 0 &&
-                Objects.equals(nickname, animal.nickname) &&
-                Objects.equals(owner, animal.owner);
+                nickname.equals(animal.getNickname()) &&
+                owner.getName().equals(animal.getOwner().getName()) &&
+                owner.getSex().getSexValue().equals(animal.getOwner().getSex().getSexValue()) &&
+                owner.getAge() == animal.getOwner().getAge();
     }
 
     @Override
