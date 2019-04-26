@@ -8,12 +8,15 @@ import java.util.*;
 public class MathBox extends ObjectBox {
 
     public MathBox(Number[] numbers) {
+
         super(Arrays.asList(numbers));
+
         setObjects(new HashSet<>(Arrays.asList(numbers)));
+
     }
 
     @Override
-    public <T> void addObject(T o) {
+    public void addObject(Object o) {
 
         Number n = (Number) o;
 

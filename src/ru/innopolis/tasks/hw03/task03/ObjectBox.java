@@ -12,15 +12,15 @@ public class ObjectBox {
      */
     private Collection<Object> objects;
 
-    public <T extends Object> ObjectBox(Collection<T> objects) {
-        this.objects = (Collection<Object>) objects;
+    public ObjectBox(Collection<Object> objects) {
+        this.objects = objects;
     }
 
     /**
      * Добавление объекта в коллекцию
      * @param o объект для добавления
      */
-    public <T> void addObject(T o) {
+    public void addObject(Object o) {
         objects.add(o);
     }
 
@@ -51,7 +51,7 @@ public class ObjectBox {
         return objects;
     }
 
-    public <T extends Object> void setObjects(Collection<T> objects) {
+    public <T> void setObjects(Collection<T> objects) {
         this.objects = (Collection<Object>) objects;
     }
 }

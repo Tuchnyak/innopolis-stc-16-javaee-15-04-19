@@ -1,6 +1,6 @@
-package ru.innopolis.tasks.hw02.task03.entities;
+package ru.innopolis.tasks.hw04.entities;
 
-import ru.innopolis.tasks.hw02.task03.sortExceptions.SortExceptionChecker;
+import ru.innopolis.tasks.hw02.task03.entities.Sex;
 
 /**
  * Класс Person характеризуется полями age (возраст, целое число 0-100),
@@ -41,8 +41,6 @@ public class Person implements Comparable<Person> {
 
     @Override
     public int compareTo(Person p) {
-
-        SortExceptionChecker.checkNameAge(this, p);
 
         if (Sex.MAN.equals(sex.getSexValue()) && Sex.WOMAN.equals(p.getSex().getSexValue())) {
             return -1;
