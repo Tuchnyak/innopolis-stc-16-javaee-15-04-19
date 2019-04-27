@@ -50,10 +50,15 @@ public class Hw03Task03 {
 
         System.out.println("*** Проверяем функционал наследования");
 
-        mathBox.addObject(new Object());
-        System.out.println(mathBox.summator());
+        System.out.println(mathBox.dump());
 
-        mathBox1.addObject(1);
+        mathBox.addObject(345);
+        System.out.println(mathBox.dump());
+
+        mathBox.deleteObject(345);
+        System.out.println(mathBox.dump());
+
+        mathBox.addObject(new Object());
 
     }
 

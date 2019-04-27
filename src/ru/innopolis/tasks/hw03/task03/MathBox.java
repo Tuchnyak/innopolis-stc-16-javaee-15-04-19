@@ -11,16 +11,17 @@ public class MathBox extends ObjectBox {
 
         super(Arrays.asList(numbers));
 
-        setObjects(new HashSet<>(Arrays.asList(numbers)));
+        super.setObjects(new HashSet<>(Arrays.asList(numbers)));
 
     }
 
     @Override
     public void addObject(Object o) {
-
-        Number n = (Number) o;
-
-        super.addObject(n);
+        if (o instanceof Number) {
+            super.addObject(o);
+        } else {
+            throw new NumberFormatException("Нельзя добавлять не Number!");
+        }
     }
 
     @Override
