@@ -8,14 +8,14 @@ import java.util.List;
 /**
  * Создать генератор текстовых файлов, работающий по следующим правилам:
  * <p>
- * Предложение состоит из 1<=n1<=15 слов. В предложении после произвольных слов могут находиться запятые.
- * Слово состоит из 1<=n2<=15 латинских букв
+ * Предложение состоит из 1-n1-15 слов. В предложении после произвольных слов могут находиться запятые.
+ * Слово состоит из 1-n2-15 латинских букв
  * Слова разделены одним пробелом
  * Предложение начинается с заглавной буквы
  * Предложение заканчивается (.|!|?)+" "
- * Текст состоит из абзацев. в одном абзаце 1<=n3<=20 предложений. В конце абзаца стоит разрыв строки
+ * Текст состоит из абзацев. в одном абзаце 1-n3-20 предложений. В конце абзаца стоит разрыв строки
  * и перенос каретки.
- * Есть массив слов 1<=n4<=1000. Есть вероятность probability вхождения одного из слов этого массива
+ * Есть массив слов 1-n4-1000. Есть вероятность probability вхождения одного из слов этого массива
  * в следующее предложение (1/probability).
  * <p>
  * Необходимо написать метод getFiles(String path, int n, int size, String[] words, int probability),
@@ -32,52 +32,61 @@ public class TextFilesGenerator {
     private static final String[] THOUSAND;
     private static final SecureRandom RANDOM;
 
-    private static int probability;
+    private static int probabilityStatic;
 
     static {
         LETTERS = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
         SIGNS = new char[]{'.', '!', '?'};
         THOUSAND = getThousandWords();
         RANDOM = new SecureRandom();
-        probability = 0;
+        probabilityStatic = 0;
     }
 
 
     public static void main(String[] args) {
 
-//        for (int i = 0; i < 100; i++) {
-//            System.out.println(genParagraph());
-//        }
-//        for (String s : THOUSAND) {
-//            System.out.println(s);
-//        }
-        getFiles(DESTINATION_PATH, 3, 500, THOUSAND, 0);
+        getFiles(DESTINATION_PATH, 3, 1333, THOUSAND, 3);
 
     }
 
 
     /**
      * Генерирует слова длиной от 1 до 15 из случайных латинских букв
+     * или берёт одно из 1000 слов в зависимости от значения вероятности
      *
      * @return слово из случайных латинских букв
      */
     private static String genWord() {
-        int min = 1;
-        int max = 15;
 
-        int length = min + RANDOM.nextInt(max);
+        boolean useThousand = false;
 
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < length; i++) {
-            sb.append(LETTERS[RANDOM.nextInt(LETTERS.length)]);
+        if (probabilityStatic > 0) {
+            double border = 1d / probabilityStatic;
+            double randomValue = RANDOM.nextDouble();
+            if (randomValue <= border)
+                useThousand = true;
         }
 
-        return sb.toString();
+        if (!useThousand) {
+            int min = 1;
+            int max = 15;
+
+            int length = min + RANDOM.nextInt(max);
+
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < length; i++) {
+                sb.append(LETTERS[RANDOM.nextInt(LETTERS.length)]);
+            }
+
+            return sb.toString();
+        }
+
+        return THOUSAND[RANDOM.nextInt(THOUSAND.length)];
     }
 
     /**
-     * Генерирует случайное предложение длиной от 1 до 15 слов со случайным знаком препинания на конце.
+     * Генерирует случайное предложение длиной от 1 до 15 слов со случайным знаком на конце.
      *
      * @return строка со случайным предложением
      */
@@ -95,7 +104,7 @@ public class TextFilesGenerator {
             firstWord = firstWord.toUpperCase();
         }
 
-        if (sentenceLength == 1) return firstWord.concat(String.valueOf(genRandomSign())).concat(" ");
+        if (sentenceLength == 1) return firstWord.concat(String.valueOf(getRandomSign())).concat(" ");
 
         StringBuilder sb = new StringBuilder();
 
@@ -103,8 +112,10 @@ public class TextFilesGenerator {
 
         for (int i = 1; i < sentenceLength; i++) {
             sb.append(genWord());
-            if (i == sentenceLength - 1) sb.append(genRandomSign()).append(" ");
-            else sb.append(" ");
+            if (i == sentenceLength - 1)
+                sb.append(getRandomSign()).append(" ");
+            else
+                sb.append(" ");
         }
 
         return sb.toString();
@@ -140,6 +151,7 @@ public class TextFilesGenerator {
     private static boolean getFiles(String path, int numberOfFiles, int sizeOfFile, String[] words, int probability) {
 
         List<String> filePaths = new ArrayList<>();
+        probabilityStatic = probability;
 
         for (int i = 0; i < numberOfFiles; i++) {
             filePaths.add(path.concat("genFile_").concat(String.valueOf(i)));
@@ -148,27 +160,38 @@ public class TextFilesGenerator {
         for (int i = 0; i < numberOfFiles; i++) {
 
             String pathToFile = filePaths.get(i);
-            byte[] byteContent = null;
-            int filling = 0;
 
-            while (filling <= sizeOfFile) {
-                byteContent = genParagraph().getBytes();
-                filling += byteContent.length;
-                try (FileOutputStream fos = new FileOutputStream(pathToFile)) {
-                    if (sizeOfFile - filling < 0) {
-                        int dif = filling - sizeOfFile;
+            try (FileOutputStream fos = new FileOutputStream(pathToFile)) {
+
+                byte[] byteContent;
+                int toFill, filled = 0;
+                boolean keepWriting = true;
+
+                while (keepWriting) {
+
+                    byteContent = genParagraph().getBytes();
+                    toFill = byteContent.length;
+
+                    if (sizeOfFile - (filled + toFill) < 0) {
+                        int dif = sizeOfFile - filled;
                         for (int j = 0; j < dif; j++) {
                             fos.write(byteContent[j]);
                             fos.flush();
                         }
+                        keepWriting = false;
                     } else {
                         fos.write(byteContent);
                         fos.flush();
+                        if (sizeOfFile - (filled + toFill) == 0)
+                            keepWriting = false;
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return false;
+
+                    filled += byteContent.length;
+
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
             }
 
         }
@@ -179,7 +202,7 @@ public class TextFilesGenerator {
     /**
      * @return случайный символ из массива SIGNS
      */
-    private static char genRandomSign() {
+    private static char getRandomSign() {
         return SIGNS[RANDOM.nextInt(SIGNS.length)];
     }
 

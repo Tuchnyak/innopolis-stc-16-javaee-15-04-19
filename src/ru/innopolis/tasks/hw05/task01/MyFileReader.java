@@ -42,7 +42,7 @@ public class MyFileReader {
     private static StringBuilder stringBuilder;
 
     static {
-        CHARS_TO_IGNORE = new HashSet<>(Arrays.asList('.', ',', '?', '!', ':', ';', '*', '"', '-'));
+        CHARS_TO_IGNORE = new HashSet<>(Arrays.asList('.', ',', '?', '!', ':', ';', '*', '"', '-', '“', '”'));
         words = new TreeSet<>();
         stringBuilder = new StringBuilder();
     }
