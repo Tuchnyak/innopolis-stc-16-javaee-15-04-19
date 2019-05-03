@@ -5,6 +5,10 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
 /**
  * Дан массив случайных чисел. Написать программу для вычисления факториалов всех элементов массива.
@@ -53,15 +57,35 @@ public class FactorialThreadPool {
     /**
      * Коллекция для хранения вычисленных значений факториалов
      */
-    private static Map<Integer, Integer> factorials;
+    private static Map<Integer, BigInteger> factorials;
 
     static {
         ARRAY_OF_RANDOMS = generateArrayOfRandoms();
-        factorials = new HashMap<>();
+        factorials = new ConcurrentHashMap<>();
     }
 
 
     public static void main(String[] args) {
+
+//        ConcurrentHashMap<Integer, BigInteger> facsTest = new ConcurrentHashMap<>();
+//        facsTest.put(6, BigInteger.valueOf(720));
+//        facsTest.put(3, BigInteger.valueOf(6));
+//        facsTest.put(2, BigInteger.valueOf(2));
+//
+//        Callable<BigInteger> factorialCalculatorSimpleTest = new FactorialCalculatorSimple(5, facsTest);
+//        FutureTask<BigInteger> task = new FutureTask<BigInteger>(factorialCalculatorSimpleTest);
+//        Thread t = new Thread(task); // это Runnable
+//        t.start();
+//        BigInteger result = null;
+//        try {
+//            result = task.get(); // это Future
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println(result);
+
 
 
     }
