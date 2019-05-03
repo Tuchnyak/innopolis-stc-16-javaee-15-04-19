@@ -6,21 +6,27 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
 
 public class FactorialCalculatorSimple implements Callable<BigInteger> {
 
     private int n;
     private Map<Integer, BigInteger> factorials;
+    private CountDownLatch countDownLatch;
 
-    public <T extends ConcurrentHashMap<Integer, BigInteger>> FactorialCalculatorSimple(int n, T factorials) {
+    public <T extends ConcurrentHashMap<Integer, BigInteger>> FactorialCalculatorSimple(int n, T factorials, CountDownLatch countDownLatch) {
         this.n = n;
         this.factorials = factorials;
+        this.countDownLatch = countDownLatch;
     }
 
     @Override
     public BigInteger call() {
 
-        if (factorials.containsKey(n)) return factorials.get(n);
+        if (factorials.containsKey(n)) {
+            countDownLatch.countDown();
+            return factorials.get(n);
+        }
 
         Set<Integer> keys = new TreeSet<>(factorials.keySet());
         boolean isKeysContainsValueLessThanN = false;
@@ -34,11 +40,19 @@ public class FactorialCalculatorSimple implements Callable<BigInteger> {
             if (x > lessKey) break;
         }
 
+        BigInteger result;
+
         if (isKeysContainsValueLessThanN) {
-            return calculateFactorialWithPart(lessKey);
+            result = calculateFactorialWithPart(lessKey);
+        } else {
+            result = calculateFullFactorial();
         }
 
-        return calculateFullFactorial();
+        factorials.put(n, result);
+
+        countDownLatch.countDown();
+
+        return result;
     }
 
     private BigInteger calculateFactorialWithPart(int lessKey) {

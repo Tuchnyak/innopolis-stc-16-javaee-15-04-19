@@ -3,12 +3,10 @@ package ru.innopolis.tasks.hw06;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
+import java.util.concurrent.*;
 
 /**
  * Дан массив случайных чисел. Написать программу для вычисления факториалов всех элементов массива.
@@ -42,7 +40,7 @@ public class FactorialThreadPool {
     /**
      * Ограничение максимального значения случайного числа для массива
      */
-    private static final int RANDOM_BOUND = 100;
+    private static final int RANDOM_BOUND = 1000;
 
     /**
      * Флаг использования верхнего ограничения для случайных чисел
@@ -57,7 +55,7 @@ public class FactorialThreadPool {
     /**
      * Коллекция для хранения вычисленных значений факториалов
      */
-    private static Map<Integer, BigInteger> factorials;
+    private static ConcurrentHashMap<Integer, BigInteger> factorials;
 
     static {
         ARRAY_OF_RANDOMS = generateArrayOfRandoms();
@@ -86,7 +84,45 @@ public class FactorialThreadPool {
 //        }
 //        System.out.println(result);
 
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
 
+        CountDownLatch countDownLatch = new CountDownLatch(ARRAY_LENGTH);
+
+        calculateFactorials(executorService, countDownLatch);
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        printResults();
+
+    }
+
+    private static void calculateFactorials(ExecutorService executorService, CountDownLatch countDownLatch) {
+
+
+
+        for (int i : ARRAY_OF_RANDOMS) {
+            executorService.submit(new FactorialCalculatorSimple(i, factorials, countDownLatch));
+        }
+
+        executorService.shutdown();
+    }
+
+    private static void printResults() {
+
+        System.out.println("Сгенерированный массив случайных чисел:");
+        for (int i : ARRAY_OF_RANDOMS) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+
+        System.out.println("Результаты вычислений (число | факториал):");
+        for (Map.Entry<Integer, BigInteger> entry : factorials.entrySet()){
+            System.out.println(String.valueOf(entry.getKey()).concat(" | ").concat(String.valueOf(entry.getValue())));
+        }
 
     }
 
