@@ -8,6 +8,10 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 
+/**
+ * Класс для вычисления факториала числа n.
+ * Не используются дополнительные потоки.
+ */
 public class FactorialCalculatorSimple implements Callable<BigInteger> {
 
     private int n;
@@ -55,6 +59,12 @@ public class FactorialCalculatorSimple implements Callable<BigInteger> {
         return result;
     }
 
+    /**
+     * Вычисление факториала на основе предыдущих вычислений
+     *
+     * @param lessKey число, для которого есть значение посчитанного факториала
+     * @return факториал n
+     */
     private BigInteger calculateFactorialWithPart(int lessKey) {
 
         BigInteger fact = factorials.get(lessKey);
@@ -66,6 +76,11 @@ public class FactorialCalculatorSimple implements Callable<BigInteger> {
         return fact;
     }
 
+    /**
+     * Вычисление факториала, для которого нет подходящих предыдущих вычислений
+     *
+     * @return факториал n
+     */
     private BigInteger calculateFullFactorial() {
 
         BigInteger fact = BigInteger.valueOf(1);

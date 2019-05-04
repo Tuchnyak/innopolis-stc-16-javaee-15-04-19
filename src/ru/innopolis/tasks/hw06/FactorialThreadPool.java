@@ -65,25 +65,6 @@ public class FactorialThreadPool {
 
     public static void main(String[] args) {
 
-//        ConcurrentHashMap<Integer, BigInteger> facsTest = new ConcurrentHashMap<>();
-//        facsTest.put(6, BigInteger.valueOf(720));
-//        facsTest.put(3, BigInteger.valueOf(6));
-//        facsTest.put(2, BigInteger.valueOf(2));
-//
-//        Callable<BigInteger> factorialCalculatorSimpleTest = new FactorialCalculatorSimple(5, facsTest);
-//        FutureTask<BigInteger> task = new FutureTask<BigInteger>(factorialCalculatorSimpleTest);
-//        Thread t = new Thread(task); // это Runnable
-//        t.start();
-//        BigInteger result = null;
-//        try {
-//            result = task.get(); // это Future
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println(result);
-
         ExecutorService executorService = Executors.newFixedThreadPool(4);
 
         CountDownLatch countDownLatch = new CountDownLatch(ARRAY_LENGTH);
@@ -100,9 +81,13 @@ public class FactorialThreadPool {
 
     }
 
+    /**
+     * Запуск многопоточного вычисления факториалов для содержимого массива случайных чисел
+     *
+     * @param executorService объект Исполнителя для запуска потоков производящих вычисления
+     * @param countDownLatch  объект, блокирующий главный поток до тех пор, пока не завершатся все вычисления
+     */
     private static void calculateFactorials(ExecutorService executorService, CountDownLatch countDownLatch) {
-
-
 
         for (int i : ARRAY_OF_RANDOMS) {
             executorService.submit(new FactorialCalculatorSimple(i, factorials, countDownLatch));
@@ -111,6 +96,9 @@ public class FactorialThreadPool {
         executorService.shutdown();
     }
 
+    /**
+     * Вывод в консоль сгенерированного массива случайных целых чисел и результатов вычислений
+     */
     private static void printResults() {
 
         System.out.println("Сгенерированный массив случайных чисел:");
@@ -120,12 +108,11 @@ public class FactorialThreadPool {
         System.out.println();
 
         System.out.println("Результаты вычислений (число | факториал):");
-        for (Map.Entry<Integer, BigInteger> entry : factorials.entrySet()){
+        for (Map.Entry<Integer, BigInteger> entry : factorials.entrySet()) {
             System.out.println(String.valueOf(entry.getKey()).concat(" | ").concat(String.valueOf(entry.getValue())));
         }
 
     }
-
 
     /**
      * Метод генерации массива случайных чисел
