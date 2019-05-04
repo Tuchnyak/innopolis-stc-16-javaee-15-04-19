@@ -10,7 +10,6 @@ import java.util.concurrent.CountDownLatch;
 
 /**
  * Класс для вычисления факториала числа n.
- * Не используются дополнительные потоки.
  */
 public class FactorialCalculatorSimple implements Callable<BigInteger> {
 
@@ -84,6 +83,7 @@ public class FactorialCalculatorSimple implements Callable<BigInteger> {
     private BigInteger calculateFullFactorial() {
 
         BigInteger fact = BigInteger.valueOf(1);
+
         for (int i = 2; i <= n; i++) {
             fact = fact.multiply(BigInteger.valueOf(i));
         }

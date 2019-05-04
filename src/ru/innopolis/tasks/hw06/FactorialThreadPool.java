@@ -2,10 +2,7 @@ package ru.innopolis.tasks.hw06;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.*;
 
 /**
@@ -35,7 +32,7 @@ public class FactorialThreadPool {
     /**
      * Константа длины массива случайных чисел
      */
-    private static final int ARRAY_LENGTH = 10;
+    private static final int ARRAY_LENGTH = 1000;
 
     /**
      * Ограничение максимального значения случайного числа для массива
@@ -101,14 +98,10 @@ public class FactorialThreadPool {
      */
     private static void printResults() {
 
-        System.out.println("Сгенерированный массив случайных чисел:");
-        for (int i : ARRAY_OF_RANDOMS) {
-            System.out.print(i + " ");
-        }
-        System.out.println();
+        Map<Integer, BigInteger> tmpMap = new TreeMap<>(factorials);
 
         System.out.println("Результаты вычислений (число | факториал):");
-        for (Map.Entry<Integer, BigInteger> entry : factorials.entrySet()) {
+        for (Map.Entry<Integer, BigInteger> entry : tmpMap.entrySet()) {
             System.out.println(String.valueOf(entry.getKey()).concat(" | ").concat(String.valueOf(entry.getValue())));
         }
 
@@ -127,7 +120,7 @@ public class FactorialThreadPool {
 
         if (USE_RANDOM_BOUND) {
             for (int i = 0; i < ARRAY_LENGTH; i++) {
-                arr[i] = random.nextInt(RANDOM_BOUND);
+                arr[i] = random.nextInt(RANDOM_BOUND + 1);
             }
         } else {
             for (int i = 0; i < ARRAY_LENGTH; i++) {
