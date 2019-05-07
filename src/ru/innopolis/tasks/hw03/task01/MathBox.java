@@ -19,6 +19,7 @@ public class MathBox {
 
     /**
      * Расчёт суммы значений
+     *
      * @return сумма всех элементов
      */
     public Double summator() {
@@ -34,6 +35,7 @@ public class MathBox {
 
     /**
      * Деление всех элементов на один делитель
+     *
      * @param arg общий делитель
      */
     public void splitter(int arg) {
@@ -50,17 +52,18 @@ public class MathBox {
 
     /**
      * Находит и удаляет целочисленное значение
+     *
      * @param i значение для удаления
      */
     public void integerDeleter(Integer i) {
 
-            Iterator<Number> iterator = numbers.iterator();
+        Iterator<Number> iterator = numbers.iterator();
 
-            while (iterator.hasNext()) {
-                if (iterator.next().intValue() == i) {
-                    iterator.remove();
-                }
+        while (iterator.hasNext()) {
+            if (iterator.next().intValue() == i) {
+                iterator.remove();
             }
+        }
 
     }
 

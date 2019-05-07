@@ -104,7 +104,8 @@ public class TextFilesGenerator {
             firstWord = firstWord.toUpperCase();
         }
 
-        if (sentenceLength == 1) return firstWord.concat(String.valueOf(getRandomSign())).concat(" ");
+        if (sentenceLength == 1)
+            return firstWord.concat(String.valueOf(getRandomSign())).concat(" ");
 
         StringBuilder sb = new StringBuilder();
 
