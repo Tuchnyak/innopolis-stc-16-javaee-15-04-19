@@ -5,6 +5,8 @@ import ru.innopolis.tasks.hw07.entities.PlainObject;
 import ru.innopolis.tasks.hw07.entities.Slave;
 
 import java.io.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 /**
  * Задание 1. Необходимо разработать класс, реализующий следующие методы:
@@ -24,6 +26,7 @@ public class SerializationDemo {
      * Константа для пути к файлу для первого задания
      */
     private static final String FILE_TASK_01 = "./src/ru/innopolis/tasks/hw07/files/file_task01.bin";
+    private static final String FILE_TASK_01_REFLECTION = "./src/ru/innopolis/tasks/hw07/files/file_task01_reflection.bin";
 
     /**
      * Константа для пути к файлу для второго задания
@@ -35,8 +38,8 @@ public class SerializationDemo {
         // task01
         PlainObject plainObject = new PlainObject("dormama", "galactic", 'z', 12, 1.5d, true);
 
-        executePlainObjectSerialization(plainObject, FILE_TASK_01);
-        PlainObject dePlob = executePlainObjectDeserialization(FILE_TASK_01);
+        serialize(plainObject, FILE_TASK_01);
+        PlainObject dePlob = deSerialize(FILE_TASK_01);
 
         System.out.println("\"Плоский\" объект из файла:");
         System.out.println(dePlob);
@@ -46,11 +49,20 @@ public class SerializationDemo {
         Slave slave = new Slave("Dobby", 159, false);
         Master master = new Master("Lucius", 54, slave);
 
-        executeObjectSerialization(master, FILE_TASK_02);
-        Master deMaster = (Master) executeObjectDeserialization(FILE_TASK_02);
+        serializeObject(master, FILE_TASK_02);
+        Master deMaster = (Master) deSerializeObject(FILE_TASK_02);
 
         System.out.println("Объект из файла:");
         System.out.println(deMaster);
+        System.out.println();
+
+        // task01 + Рефлексия
+        PlainObject plobRef = new PlainObject("ref_obj", "cosmic", 'a', 1, 42.42d, false);
+        serializeWithReflection(plobRef, FILE_TASK_01_REFLECTION);
+        PlainObject dePlobRef = deSerialize(FILE_TASK_01_REFLECTION);
+
+        System.out.println("\"Плоский\" объект из файла, который был сериализовани с применением Рефлексии:");
+        System.out.println(dePlobRef);
 
     }
 
@@ -60,7 +72,7 @@ public class SerializationDemo {
      * @param object "плоский" объект для сериалихации
      * @param file   путь к файлу для записи объекта
      */
-    private static void executePlainObjectSerialization(Object object, String file) {
+    private static void serialize(Object object, String file) {
 
         PlainObject plainObject = (PlainObject) object;
 
@@ -87,7 +99,7 @@ public class SerializationDemo {
      * @param file путь к файлу с сериолизованным объектом
      * @return восстановленный из файла объект
      */
-    private static PlainObject executePlainObjectDeserialization(String file) {
+    private static PlainObject deSerialize(String file) {
 
         PlainObject plob = null;
 
@@ -109,11 +121,18 @@ public class SerializationDemo {
         return plob;
     }
 
-    private static void executeObjectSerialization(Object object, String file) {
+    /**
+     * Сериализация объекта с сылочными полями
+     *
+     * @param object объект для сериализации
+     * @param file   путь к файлу для записи
+     */
+    private static void serializeObject(Object object, String file) {
 
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
 
             oos.writeObject(object);
+            oos.flush();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -121,7 +140,13 @@ public class SerializationDemo {
 
     }
 
-    private static Object executeObjectDeserialization(String file) {
+    /**
+     * Десериализайия из файла объекта с сылочными полями
+     *
+     * @param file путь к файлу для чтения
+     * @return объект из файла
+     */
+    private static Object deSerializeObject(String file) {
 
         Object obj = null;
 
@@ -135,5 +160,62 @@ public class SerializationDemo {
 
         return obj;
     }
+
+    /**
+     * Сериализация "плоского" объекта с примитивными полями или строками, реализованная при помощи Рефлексии
+     *
+     * @param object объект для сериализации
+     * @param file   путь к файлу для записи
+     */
+    private static void serializeWithReflection(Object object, String file) {
+
+        try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(file))) {
+
+            for (Field f : object.getClass().getDeclaredFields()) {
+
+                if (Modifier.isPrivate(f.getModifiers()))
+                    f.setAccessible(true);
+
+                Class<?> fieldType = f.getType();
+
+                switch (fieldType.getTypeName()) {
+                    case "java.lang.String":
+                        dos.writeUTF((String) f.get(object));
+                        break;
+                    case "char":
+                        dos.writeChar(f.getChar(object));
+                        break;
+                    case "byte":
+                        dos.writeByte(f.getByte(object));
+                        break;
+                    case "short":
+                        dos.writeShort(f.getShort(object));
+                        break;
+                    case "int":
+                        dos.writeInt(f.getInt(object));
+                        break;
+                    case "long":
+                        dos.writeLong(f.getLong(object));
+                        break;
+                    case "float":
+                        dos.writeFloat(f.getFloat(object));
+                        break;
+                    case "double":
+                        dos.writeDouble(f.getDouble(object));
+                        break;
+                    case "boolean":
+                        dos.writeBoolean(f.getBoolean(object));
+                        break;
+                }
+                dos.flush();
+
+            }
+
+        } catch (IOException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
 }
