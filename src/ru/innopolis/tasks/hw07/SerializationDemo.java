@@ -1,6 +1,8 @@
 package ru.innopolis.tasks.hw07;
 
+import ru.innopolis.tasks.hw07.entities.Master;
 import ru.innopolis.tasks.hw07.entities.PlainObject;
+import ru.innopolis.tasks.hw07.entities.Slave;
 
 import java.io.*;
 
@@ -30,19 +32,37 @@ public class SerializationDemo {
 
     public static void main(String[] args) {
 
+        // task01
         PlainObject plainObject = new PlainObject("dormama", "galactic", 'z', 12, 1.5d, true);
+
         executePlainObjectSerialization(plainObject, FILE_TASK_01);
         PlainObject dePlob = executePlainObjectDeserialization(FILE_TASK_01);
+
+        System.out.println("\"Плоский\" объект из файла:");
         System.out.println(dePlob);
+        System.out.println();
+
+        // task02
+        Slave slave = new Slave("Dobby", 159, false);
+        Master master = new Master("Lucius", 54, slave);
+
+        executeObjectSerialization(master, FILE_TASK_02);
+        Master deMaster = (Master) executeObjectDeserialization(FILE_TASK_02);
+
+        System.out.println("Объект из файла:");
+        System.out.println(deMaster);
 
     }
 
     /**
      * Сериализация "плоского" объекта
-     * @param plainObject "плоский" объект для сериалихации
-     * @param file путь к файлу для записи объекта
+     *
+     * @param object "плоский" объект для сериалихации
+     * @param file   путь к файлу для записи объекта
      */
-    private static void executePlainObjectSerialization(PlainObject plainObject, String file) {
+    private static void executePlainObjectSerialization(Object object, String file) {
+
+        PlainObject plainObject = (PlainObject) object;
 
         try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(file))) {
 
@@ -53,6 +73,8 @@ public class SerializationDemo {
             dos.writeDouble(plainObject.getMass());
             dos.writeBoolean(plainObject.isNew());
 
+            dos.flush();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,6 +83,7 @@ public class SerializationDemo {
 
     /**
      * Десериализайия "плоского" объекта из файла
+     *
      * @param file путь к файлу с сериолизованным объектом
      * @return восстановленный из файла объект
      */
@@ -68,7 +91,7 @@ public class SerializationDemo {
 
         PlainObject plob = null;
 
-        try(DataInputStream dis = new DataInputStream(new FileInputStream(file))) {
+        try (DataInputStream dis = new DataInputStream(new FileInputStream(file))) {
 
             String model = dis.readUTF();
             String type = dis.readUTF();
@@ -84,6 +107,33 @@ public class SerializationDemo {
         }
 
         return plob;
+    }
+
+    private static void executeObjectSerialization(Object object, String file) {
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+
+            oos.writeObject(object);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private static Object executeObjectDeserialization(String file) {
+
+        Object obj = null;
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+
+            obj = ois.readObject();
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return obj;
     }
 
 }
