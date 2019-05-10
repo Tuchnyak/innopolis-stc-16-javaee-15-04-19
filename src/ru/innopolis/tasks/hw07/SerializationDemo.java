@@ -30,7 +30,7 @@ public class SerializationDemo {
 
     public static void main(String[] args) {
 
-        PlainObject plainObject = new PlainObject("dormama", 'z', 12, 1.5d, true);
+        PlainObject plainObject = new PlainObject("dormama", "galactic", 'z', 12, 1.5d, true);
         executePlainObjectSerialization(plainObject, FILE_TASK_01);
         PlainObject dePlob = executePlainObjectDeserialization(FILE_TASK_01);
         System.out.println(dePlob);
@@ -47,6 +47,7 @@ public class SerializationDemo {
         try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(file))) {
 
             dos.writeUTF(plainObject.getModel());
+            dos.writeUTF(plainObject.getType());
             dos.writeChar(plainObject.getSign());
             dos.writeInt(plainObject.getAmount());
             dos.writeDouble(plainObject.getMass());
@@ -70,12 +71,13 @@ public class SerializationDemo {
         try(DataInputStream dis = new DataInputStream(new FileInputStream(file))) {
 
             String model = dis.readUTF();
+            String type = dis.readUTF();
             char sign = dis.readChar();
             int amount = dis.readInt();
             double mass = dis.readDouble();
             boolean isNew = dis.readBoolean();
 
-            plob = new PlainObject(model, sign, amount, mass, isNew);
+            plob = new PlainObject(model, type, sign, amount, mass, isNew);
 
         } catch (IOException e) {
             e.printStackTrace();

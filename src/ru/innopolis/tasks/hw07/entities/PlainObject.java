@@ -6,13 +6,15 @@ package ru.innopolis.tasks.hw07.entities;
 public class PlainObject {
 
     private String model;
+    private String type;
     private char sign;
     private int amount;
     private double mass;
     private boolean isNew;
 
-    public PlainObject(String model, char sign, int amount, double mass, boolean isNew) {
+    public PlainObject(String model, String type, char sign, int amount, double mass, boolean isNew) {
         this.model = model;
+        this.type = type;
         this.sign = sign;
         this.amount = amount;
         this.mass = mass;
@@ -21,6 +23,10 @@ public class PlainObject {
 
     public String getModel() {
         return model;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public char getSign() {
@@ -43,11 +49,11 @@ public class PlainObject {
     public String toString() {
         return "PlainObject{" +
                 "model='" + model + '\'' +
+                ", type='" + type + '\'' +
                 ", sign=" + sign +
                 ", amount=" + amount +
                 ", mass=" + mass +
                 ", isNew=" + isNew +
                 '}';
     }
-
 }
