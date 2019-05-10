@@ -9,9 +9,7 @@ public class MathBox extends ObjectBox {
 
     public MathBox(Number[] numbers) {
 
-        super(Arrays.asList(numbers));
-
-        super.setObjects(new HashSet<>(Arrays.asList(numbers)));
+        super(new HashSet<>(Arrays.asList(numbers)));
 
     }
 

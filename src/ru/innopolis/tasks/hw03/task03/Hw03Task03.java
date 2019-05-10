@@ -1,5 +1,7 @@
 package ru.innopolis.tasks.hw03.task03;
 
+import java.util.concurrent.locks.LockSupport;
+
 /**
  * Задание 3. Доработать классы MathBox и ObjectBox таким образом, чтобы MathBox был наследником ObjectBox.
  * Необходимо сделать такую связь, правильно распределить поля и методы. Функциональность в целом должна сохраниться.
@@ -58,6 +60,7 @@ public class Hw03Task03 {
         mathBox.deleteObject(345);
         System.out.println(mathBox.dump());
 
+        LockSupport.parkNanos(1000000000L);
         mathBox.addObject(new Object());
 
     }
