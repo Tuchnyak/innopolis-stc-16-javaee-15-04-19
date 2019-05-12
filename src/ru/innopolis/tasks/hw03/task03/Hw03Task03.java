@@ -15,10 +15,10 @@ public class Hw03Task03 {
 
         System.out.println("*** Проверяем старый функционал");
 
-        Number[] numbers = {0f, 1f, 2f, 3f};
+        Number[] numbers = {0L, 1, 2d, 3f};
 
-        MathBox mathBox = new MathBox(numbers);
-        MathBox mathBox1 = new MathBox(numbers);
+        MathBox<Number> mathBox = new MathBox<>(numbers);
+        MathBox<Number> mathBox1 = new MathBox<>(numbers);
 
         System.out.println("Проверяем метод equals()");
         System.out.println(mathBox.equals(mathBox1));
@@ -60,8 +60,8 @@ public class Hw03Task03 {
         mathBox.deleteObject(345);
         System.out.println(mathBox.dump());
 
-        LockSupport.parkNanos(1000000000L);
-        mathBox.addObject(new Object());
+        // сама IDE не позволяет
+//        mathBox.addObject(new Object());
 
     }
 

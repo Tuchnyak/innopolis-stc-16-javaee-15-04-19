@@ -5,31 +5,12 @@ import java.util.*;
 /**
  * Класс содержащий уникальные цифроввые значения
  */
-public class MathBox extends ObjectBox {
+public class MathBox<T extends Number> extends ObjectBox<T> {
 
     public MathBox(Number[] numbers) {
 
-        super(new HashSet<>(Arrays.asList(numbers)));
+        super(new HashSet<>((Collection<? extends T>) Arrays.asList(numbers)));
 
-    }
-
-    @Override
-    public void addObject(Object o) {
-        if (o instanceof Number) {
-            super.addObject(o);
-        } else {
-            throw new NumberFormatException("Нельзя добавлять не Number!");
-        }
-    }
-
-    @Override
-    public boolean deleteObject(Object o) {
-        return super.deleteObject(o);
-    }
-
-    @Override
-    public String dump() {
-        return super.dump();
     }
 
     /**
@@ -61,7 +42,7 @@ public class MathBox extends ObjectBox {
             tmpSet.add(((Number) n).doubleValue() / arg);
         }
 
-        setObjects(tmpSet);
+        setObjects((Collection<T>) tmpSet);
 
     }
 
@@ -72,7 +53,7 @@ public class MathBox extends ObjectBox {
      */
     public void integerDeleter(Integer i) {
 
-        getObjects().removeIf(o -> ((Number) o).intValue() == i);
+        getObjects().removeIf(o -> o.intValue() == i);
 
     }
 

@@ -5,53 +5,56 @@ import java.util.Collection;
 /**
  * Класс для хранения коллекции объектов
  */
-public class ObjectBox {
+public class ObjectBox<T> {
 
     /**
      * Хранилище объектов
      */
-    private Collection<Object> objects;
+    private Collection<T> objects;
 
-    public ObjectBox(Collection<Object> objects) {
+    public ObjectBox(Collection<T> objects) {
         this.objects = objects;
     }
 
     /**
      * Добавление объекта в коллекцию
+     *
      * @param o объект для добавления
      */
-    public void addObject(Object o) {
+    public void addObject(T o) {
         objects.add(o);
     }
 
     /**
      * Удаление объекта из коллекции
+     *
      * @param o объект для удаления
      * @return true, если объект удалён
      */
-    public boolean deleteObject(Object o) {
+    public boolean deleteObject(T o) {
         return objects.remove(o);
     }
 
     /**
      * Формирование строки с содержимым
+     *
      * @return строка с содержимым коллеции
      */
     public String dump() {
         StringBuilder sb = new StringBuilder();
 
-        for (Object o : objects) {
+        for (T o : objects) {
             sb.append(o.toString()).append(" ");
         }
 
         return sb.toString();
     }
 
-    public Collection<Object> getObjects() {
+    public Collection<T> getObjects() {
         return objects;
     }
 
-    public <T> void setObjects(Collection<T> objects) {
-        this.objects = (Collection<Object>) objects;
+    public void setObjects(Collection<T> objects) {
+        this.objects = objects;
     }
 }
