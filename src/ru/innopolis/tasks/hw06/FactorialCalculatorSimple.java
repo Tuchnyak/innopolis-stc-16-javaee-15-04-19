@@ -25,7 +25,6 @@ public class FactorialCalculatorSimple implements Callable<BigInteger> {
 
     @Override
     public BigInteger call() {
-
         if (factorials.containsKey(n)) {
             countDownLatch.countDown();
             return factorials.get(n);
@@ -52,7 +51,6 @@ public class FactorialCalculatorSimple implements Callable<BigInteger> {
         }
 
         factorials.put(n, result);
-
         countDownLatch.countDown();
 
         return result;
@@ -65,9 +63,7 @@ public class FactorialCalculatorSimple implements Callable<BigInteger> {
      * @return факториал n
      */
     private BigInteger calculateFactorialWithPart(int lessKey) {
-
         BigInteger fact = factorials.get(lessKey);
-
         for (int i = lessKey + 1; i <= n; i++) {
             fact = fact.multiply(BigInteger.valueOf(i));
         }
@@ -81,14 +77,11 @@ public class FactorialCalculatorSimple implements Callable<BigInteger> {
      * @return факториал n
      */
     private BigInteger calculateFullFactorial() {
-
         BigInteger fact = BigInteger.valueOf(1);
-
         for (int i = 2; i <= n; i++) {
             fact = fact.multiply(BigInteger.valueOf(i));
         }
 
         return fact;
     }
-
 }

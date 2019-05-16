@@ -59,9 +59,7 @@ public class FactorialThreadPool {
         factorials = new ConcurrentHashMap<>();
     }
 
-
     public static void main(String[] args) {
-
         ExecutorService executorService = Executors.newFixedThreadPool(4);
 
         CountDownLatch countDownLatch = new CountDownLatch(ARRAY_LENGTH);
@@ -73,9 +71,7 @@ public class FactorialThreadPool {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         printResults();
-
     }
 
     /**
@@ -85,11 +81,9 @@ public class FactorialThreadPool {
      * @param countDownLatch  объект, блокирующий главный поток до тех пор, пока не завершатся все вычисления
      */
     private static void calculateFactorials(ExecutorService executorService, CountDownLatch countDownLatch) {
-
         for (int i : ARRAY_OF_RANDOMS) {
             executorService.submit(new FactorialCalculatorSimple(i, factorials, countDownLatch));
         }
-
         executorService.shutdown();
     }
 
@@ -97,14 +91,11 @@ public class FactorialThreadPool {
      * Вывод в консоль сгенерированного массива случайных целых чисел и результатов вычислений
      */
     private static void printResults() {
-
         Map<Integer, BigInteger> tmpMap = new TreeMap<>(factorials);
-
         System.out.println("Результаты вычислений (число | факториал):");
         for (Map.Entry<Integer, BigInteger> entry : tmpMap.entrySet()) {
             System.out.println(String.valueOf(entry.getKey()).concat(" | ").concat(String.valueOf(entry.getValue())));
         }
-
     }
 
     /**
@@ -113,23 +104,12 @@ public class FactorialThreadPool {
      * @return массив случайных чисел длиной ARRAY_LENGTH
      */
     private static int[] generateArrayOfRandoms() {
-
         int[] arr = new int[ARRAY_LENGTH];
-
         SecureRandom random = new SecureRandom();
-
-        if (USE_RANDOM_BOUND) {
-            for (int i = 0; i < ARRAY_LENGTH; i++) {
-                arr[i] = random.nextInt(RANDOM_BOUND + 1);
-            }
-        } else {
-            for (int i = 0; i < ARRAY_LENGTH; i++) {
-                arr[i] = random.nextInt();
-            }
+        for (int i = 0; i < ARRAY_LENGTH; i++) {
+            arr[i] = USE_RANDOM_BOUND ? random.nextInt(RANDOM_BOUND + 1) : random.nextInt();
         }
-
+        
         return arr;
     }
-
-
 }
