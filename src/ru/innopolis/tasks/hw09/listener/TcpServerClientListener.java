@@ -54,11 +54,11 @@ public class TcpServerClientListener implements Runnable {
             String msg;
             while (!(msg = reader.readLine()).equalsIgnoreCase(EXIT_COMMAND)) {
                 String fullMsg = serverSocketsMap.get(clientSocket).concat(": ").concat(msg);
-                System.out.println(fullMsg);
+//                System.out.println(fullMsg);TODO
                 msgsQueue.add(fullMsg);
             }
 
-            msgsQueue.add(serverSocketsMap.get(clientSocket).concat(" ").concat("Покинул чат."));
+            msgsQueue.add(serverSocketsMap.get(clientSocket).concat(" ").concat("покинул чат."));
             clientSocket.close();
             serverSocketsMap.remove(clientSocket);
 

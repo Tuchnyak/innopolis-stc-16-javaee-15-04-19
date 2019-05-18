@@ -18,20 +18,11 @@ import java.util.Properties;
  */
 public class ChatDemo {
 
-    private static final Properties PROPERTIES = new Properties();
-    private static final String PROPERTIES_PATH = "./src/ru/innopolis/tasks/hw09/app.properties";
 
-    static {
-        try (InputStream is = new FileInputStream(PROPERTIES_PATH)) {
-            PROPERTIES.load(is);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void main(String[] args) {
 
-        PROPERTIES.forEach((key, value) -> System.out.println("Key : " + key + ", Value : " + value));
+//        PROPERTIES.forEach((key, value) -> System.out.println("Key : " + key + ", Value : " + value));
 
     }
 
