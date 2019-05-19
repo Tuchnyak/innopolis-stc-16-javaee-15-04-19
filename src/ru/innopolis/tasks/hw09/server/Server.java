@@ -56,6 +56,7 @@ public class Server extends Thread {
         try (ServerSocket serverSocket = new ServerSocket(port, 0, InetAddress.getByName(host));
              DatagramSocket datagramSocket = new DatagramSocket()) {
 
+            datagramSocket.setReuseAddress(true);
             datagramSocket.setBroadcast(true);
 
             // приём новых подключений
