@@ -7,6 +7,8 @@ import java.net.SocketException;
 
 public class BroadcastListener extends Thread {
 
+    private static final int RECEIVE_TIMEOUT = 60000;
+
     private boolean isRunning = true;
     private DatagramSocket socket = null;
 
@@ -27,21 +29,22 @@ public class BroadcastListener extends Thread {
         DatagramPacket packet;
 
         while (isRunning) {
-            packet = new DatagramPacket(buff, buff.length);
             try {
+                buff = new byte[256];
+                packet = new DatagramPacket(buff, buff.length);
+
                 if (socket != null) {
-                    socket.setSoTimeout(10000);
+                    socket.setSoTimeout(RECEIVE_TIMEOUT);
                     socket.receive(packet);
-                    System.out.println(new String(packet.getData()));
+                    System.out.println((new String(packet.getData())).trim());
                 }
-            } catch (IOException ignored) {
-            } finally {
-                if (socket != null) {
-                    socket.close();
-                }
+            } catch (IOException e) {
+                System.out.println(">>> broadcast timeout: ".concat(e.getMessage()));
             }
         }
-
+        if (socket != null) {
+            socket.close();
+        }
     }
 
     public void stopListener() {

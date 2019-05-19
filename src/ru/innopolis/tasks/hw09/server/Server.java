@@ -86,7 +86,7 @@ public class Server extends Thread {
             // вычитывание сообщений из очереди и отправка сообщений в бродкаст
             EXECUTOR_SERVICE.execute(() -> {
                 while (isServerRun) {
-                    LockSupport.parkNanos(100_000_000L);
+//                    LockSupport.parkNanos(100_000_000L);
                     if (!msgsQueue.isEmpty()) {
                         sendBroadcastMessage(msgsQueue.poll(), datagramSocket);
                     }

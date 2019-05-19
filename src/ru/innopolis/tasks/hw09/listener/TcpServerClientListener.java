@@ -71,7 +71,7 @@ public class TcpServerClientListener implements Runnable {
                     isFirstLineFromClient = false;
                 } else {
                     String fullMsg = serverSocketsMap.get(clientSocket).concat(": ").concat(msg);
-                    System.out.println(fullMsg); //TODO
+                    System.out.println(">>> " + fullMsg); //TODO
                     msgsQueue.add(fullMsg);
                 }
             }
