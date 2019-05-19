@@ -9,7 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.locks.LockSupport;
 
 public class Server extends Thread {
 
@@ -56,13 +55,12 @@ public class Server extends Thread {
         try (ServerSocket serverSocket = new ServerSocket(port, 0, InetAddress.getByName(host));
              DatagramSocket datagramSocket = new DatagramSocket()) {
 
-            datagramSocket.setReuseAddress(true);
+//            datagramSocket.setReuseAddress(true);
             datagramSocket.setBroadcast(true);
 
             // приём новых подключений
             EXECUTOR_SERVICE.execute(() -> {
                 Socket socket = null;
-                ConcurrentHashMap<Socket, String> serverSocketsMap = new ConcurrentHashMap<>();
                 while (isServerRun) {
                     try {
                         socket = serverSocket.accept();
