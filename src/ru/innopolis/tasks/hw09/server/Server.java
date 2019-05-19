@@ -15,7 +15,7 @@ public class Server extends Thread {
 
     private static final String PROPERTIES_PATH = "./src/ru/innopolis/tasks/hw09/app.properties";
     private static final Properties PROPERTIES = new Properties();
-    private static final String EXIT_COMMAND = "STOP SERVER";
+    private static final String EXIT_COMMAND = "STOP";
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool();
 
     private volatile static boolean isServerRun = true;
