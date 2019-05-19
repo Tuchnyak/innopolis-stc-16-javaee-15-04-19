@@ -16,8 +16,10 @@ public class Server extends Thread {
     private static final String PROPERTIES_PATH = "./src/ru/innopolis/tasks/hw09/app.properties";
     private static final Properties PROPERTIES = new Properties();
     private static final String EXIT_COMMAND = "STOP SERVER";
+    private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool();
 
     private volatile static boolean isServerRun = true;
+
 
     static {
         try (InputStream is = new FileInputStream(PROPERTIES_PATH)) {
@@ -26,7 +28,6 @@ public class Server extends Thread {
             e.printStackTrace();
         }
     }
-
     /**
      * Отображение сокетов на их имена
      */
@@ -41,7 +42,7 @@ public class Server extends Thread {
     private final String broadcastIp;
     private final int broadcastPort;
 
-    private ExecutorService executorService = Executors.newCachedThreadPool();
+    private Socket socket = null;
 
     public Server() {
         this.port = Integer.parseInt(PROPERTIES.getProperty("server.port"));
@@ -59,25 +60,36 @@ public class Server extends Thread {
             datagramSocket.setBroadcast(true);
 
             // приём новых подключений
-            executorService.execute(() -> {
+            EXECUTOR_SERVICE.execute(() -> {
                 while (isServerRun) {
-                    try (Socket socket = serverSocket.accept()) {
+                    try {
+                        socket = serverSocket.accept();
+                        System.out.println(">>> Сокет получен");
                         if (!serverSocketsMap.containsKey(socket)) {
                             try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
                                 String socketName = reader.readLine();
+                                System.out.println(">>> Имя сокета " + socketName);
                                 serverSocketsMap.put(socket, socketName);
-                                executorService.execute(new TcpServerClientListener(socket, serverSocketsMap, msgsQueue));
+                                System.out.println(">>> Сокет добавлен, имя: " + serverSocketsMap.get(socket));
+                                EXECUTOR_SERVICE.execute(new TcpServerClientListener(socket, serverSocketsMap, msgsQueue));
                             }
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
+                        if (socket != null) {
+                            try {
+                                socket.close();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                     }
                 }
 
             });
 
             // вычитывание сообщений из очереди и отправка сообщений в бродкаст
-            executorService.execute(() -> {
+            EXECUTOR_SERVICE.execute(() -> {
                 while (isServerRun) {
                     LockSupport.parkNanos(100_000_000L);
                     if (!msgsQueue.isEmpty()) {
@@ -91,6 +103,7 @@ public class Server extends Thread {
                 while (isServerRun) {
                     if (reader.readLine().equalsIgnoreCase(EXIT_COMMAND)) {
                         isServerRun = false;
+                        EXECUTOR_SERVICE.shutdownNow();
                         break;
                     }
                 }

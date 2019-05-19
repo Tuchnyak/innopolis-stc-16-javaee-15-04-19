@@ -45,6 +45,7 @@ public class TcpServerClientListener implements Runnable {
         this.clientSocket = clientSocket;
         this.serverSocketsMap = serverSocketsMap;
         this.msgsQueue = msgsQueue;
+        System.out.println(">>> Слушатель клиента создан");
     }
 
     @Override
@@ -54,7 +55,7 @@ public class TcpServerClientListener implements Runnable {
             String msg;
             while (!(msg = reader.readLine()).equalsIgnoreCase(EXIT_COMMAND)) {
                 String fullMsg = serverSocketsMap.get(clientSocket).concat(": ").concat(msg);
-//                System.out.println(fullMsg);TODO
+                System.out.println(fullMsg); //TODO
                 msgsQueue.add(fullMsg);
             }
 

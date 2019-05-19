@@ -84,7 +84,7 @@ public class FactorialThreadPool {
         for (int i : ARRAY_OF_RANDOMS) {
             executorService.submit(new FactorialCalculatorSimple(i, factorials, countDownLatch));
         }
-        executorService.shutdown();
+        executorService.shutdown(); //TODO перенести в мэйн
     }
 
     /**

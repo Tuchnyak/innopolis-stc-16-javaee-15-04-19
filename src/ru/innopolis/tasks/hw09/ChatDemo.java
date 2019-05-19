@@ -1,9 +1,18 @@
 package ru.innopolis.tasks.hw09;
 
+import ru.innopolis.tasks.hw09.listener.TcpServerClientListener;
+import ru.innopolis.tasks.hw09.server.Server;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * <b>Задание 1.</b> Разработать приложение - многопользовательский чат, в котором участвует произвольное количество клиентов.
@@ -20,9 +29,9 @@ public class ChatDemo {
 
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-//        PROPERTIES.forEach((key, value) -> System.out.println("Key : " + key + ", Value : " + value));
+        new Server().start();
 
     }
 
