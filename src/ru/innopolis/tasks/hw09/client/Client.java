@@ -1,6 +1,7 @@
 package ru.innopolis.tasks.hw09.client;
 
 import ru.innopolis.tasks.hw09.listener.BroadcastListener;
+import ru.innopolis.tasks.hw09.listener.TcpListener;
 
 import java.io.*;
 import java.net.Socket;
@@ -34,6 +35,10 @@ public class Client {
              Socket socket = new Socket(PROPERTIES.getProperty("localhost.ip"), serverPort);
              BufferedWriter bufferedWriter = new BufferedWriter(
                      new OutputStreamWriter(socket.getOutputStream()))) {
+
+
+            TcpListener tcpListener = new TcpListener(socket.getInputStream(), EXIT_COMMAND);
+            tcpListener.start();
 
             System.out.println("Type your name:");
 

@@ -4,11 +4,14 @@ import ru.innopolis.tasks.hw09.listener.TcpServerClientListener;
 
 import java.io.*;
 import java.net.*;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 public class Server extends Thread {
 
@@ -18,7 +21,7 @@ public class Server extends Thread {
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool();
 
     private volatile static boolean isServerRun = true;
-
+    private static String sendToSign;
 
     static {
         try (InputStream is = new FileInputStream(PROPERTIES_PATH)) {
@@ -47,6 +50,7 @@ public class Server extends Thread {
         this.host = PROPERTIES.getProperty("localhost.ip");
         this.broadcastIp = PROPERTIES.getProperty("broadcast.ip");
         this.broadcastPort = Integer.parseInt(PROPERTIES.getProperty("broadcast.port"));
+        sendToSign = PROPERTIES.getProperty("send_to_sign");
     }
 
     @Override
@@ -55,7 +59,6 @@ public class Server extends Thread {
         try (ServerSocket serverSocket = new ServerSocket(port, 0, InetAddress.getByName(host));
              DatagramSocket datagramSocket = new DatagramSocket()) {
 
-//            datagramSocket.setReuseAddress(true);
             datagramSocket.setBroadcast(true);
 
             // приём новых подключений
@@ -85,9 +88,18 @@ public class Server extends Thread {
             // вычитывание сообщений из очереди и отправка сообщений в бродкаст
             EXECUTOR_SERVICE.execute(() -> {
                 while (isServerRun) {
-//                    LockSupport.parkNanos(100_000_000L);
                     if (!msgsQueue.isEmpty()) {
-                        sendBroadcastMessage(msgsQueue.poll(), datagramSocket);
+                        String msg = msgsQueue.poll();
+                        if (msg.contains(sendToSign)) {
+                            String clearMsg = msg.substring(msg.indexOf("@"));
+                            String sendTo = clearMsg.substring(1, clearMsg.indexOf(" "));
+                            clearMsg = clearMsg.substring(clearMsg.indexOf(" ") + 1);
+                            if (serverSocketsMap.containsValue(sendTo)) {
+                                sendUnicastMessage(sendTo, clearMsg, serverSocketsMap);
+                            }
+                        } else {
+                            sendBroadcastMessage(msg, datagramSocket);
+                        }
                     }
                 }
             });
@@ -111,10 +123,29 @@ public class Server extends Thread {
 
     }
 
+    private void sendUnicastMessage(String sendTo, String msg, ConcurrentHashMap<Socket, String> serverSocketsMap) {
+        List<Map.Entry<Socket, String>> sendToList = serverSocketsMap.entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().equalsIgnoreCase(sendTo))
+                .collect(Collectors.toList());
+        for (Map.Entry<Socket, String> entry : sendToList) {
+            Socket socket = entry.getKey();
+            try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()))){
+                StringBuilder sb = new StringBuilder();
+                sb.append("Personal message for ");
+                sb.append(sendToSign);
+                sb.append(sendTo).append(": ");
+                sb.append(msg);
+                writer.write(sb.toString().concat("\n"));
+                writer.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private void sendBroadcastMessage(String msg, DatagramSocket datagramSocket) {
-
         byte[] buff = msg.getBytes();
-
         try {
             DatagramPacket datagramPacket = new DatagramPacket(
                     buff,
@@ -125,7 +156,6 @@ public class Server extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
 }
