@@ -38,11 +38,12 @@ public class Client {
             System.out.println("Type your name:");
 
             String msg;
-            while (!(msg = reader.readLine()).equalsIgnoreCase(EXIT_COMMAND)) {
+            do {
+                msg = reader.readLine();
                 bufferedWriter.write(msg);
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
-            }
+            } while (!msg.equalsIgnoreCase(EXIT_COMMAND));
 
         } catch (IOException e) {
             e.printStackTrace();

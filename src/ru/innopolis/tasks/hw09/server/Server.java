@@ -28,6 +28,7 @@ public class Server extends Thread {
             e.printStackTrace();
         }
     }
+
     /**
      * Отображение сокетов на их имена
      */
@@ -41,8 +42,6 @@ public class Server extends Thread {
     private final String host;
     private final String broadcastIp;
     private final int broadcastPort;
-
-    private Socket socket = null;
 
     public Server() {
         this.port = Integer.parseInt(PROPERTIES.getProperty("server.port"));
@@ -61,18 +60,14 @@ public class Server extends Thread {
 
             // приём новых подключений
             EXECUTOR_SERVICE.execute(() -> {
+                Socket socket = null;
+                ConcurrentHashMap<Socket, String> serverSocketsMap = new ConcurrentHashMap<>();
                 while (isServerRun) {
                     try {
                         socket = serverSocket.accept();
                         System.out.println(">>> Сокет получен");
                         if (!serverSocketsMap.containsKey(socket)) {
-                            try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-                                String socketName = reader.readLine();
-                                System.out.println(">>> Имя сокета " + socketName);
-                                serverSocketsMap.put(socket, socketName);
-                                System.out.println(">>> Сокет добавлен, имя: " + serverSocketsMap.get(socket));
-                                EXECUTOR_SERVICE.execute(new TcpServerClientListener(socket, serverSocketsMap, msgsQueue));
-                            }
+                            EXECUTOR_SERVICE.execute(new TcpServerClientListener(socket, serverSocketsMap, msgsQueue));
                         }
                     } catch (IOException e) {
                         e.printStackTrace();

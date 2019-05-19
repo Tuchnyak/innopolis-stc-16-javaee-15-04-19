@@ -50,18 +50,37 @@ public class TcpServerClientListener implements Runnable {
 
     @Override
     public void run() {
+
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
 
+            /*
+            String socketName = reader.readLine();
+            System.out.println(">>> Имя сокета " + socketName);
+            serverSocketsMap.put(socket, socketName);
+            System.out.println(">>> Сокет добавлен, имя: " + serverSocketsMap.get(socket));
+             */
+
+
             String msg;
+            boolean isFirstLineFromClient = true;
             while (!(msg = reader.readLine()).equalsIgnoreCase(EXIT_COMMAND)) {
-                String fullMsg = serverSocketsMap.get(clientSocket).concat(": ").concat(msg);
-                System.out.println(fullMsg); //TODO
-                msgsQueue.add(fullMsg);
+                if (isFirstLineFromClient) {
+                    System.out.println(">>> Имя сокета " + msg);
+                    serverSocketsMap.put(clientSocket, msg);
+                    System.out.println(">>> Сокет добавлен, имя: " + serverSocketsMap.get(clientSocket));
+                    isFirstLineFromClient = false;
+                } else {
+                    String fullMsg = serverSocketsMap.get(clientSocket).concat(": ").concat(msg);
+                    System.out.println(fullMsg); //TODO
+                    msgsQueue.add(fullMsg);
+                }
             }
 
+            System.out.println(">>> ".concat(serverSocketsMap.get(clientSocket).concat(" ").concat("Отключаем.")));
             msgsQueue.add(serverSocketsMap.get(clientSocket).concat(" ").concat("покинул чат."));
             clientSocket.close();
             serverSocketsMap.remove(clientSocket);
+
 
         } catch (IOException e) {
             e.printStackTrace();
