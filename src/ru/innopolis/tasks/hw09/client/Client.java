@@ -7,10 +7,15 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Properties;
 
+/**
+ * Клиент для подключения к серверу
+ * @ - знак для личного сообщения
+ */
 public class Client {
 
     private static final String PROPERTIES_PATH = "./src/ru/innopolis/tasks/hw09/app.properties";
     private static final Properties PROPERTIES = new Properties();
+
     /**
      * Команда завершения работы
      */

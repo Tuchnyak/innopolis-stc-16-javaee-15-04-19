@@ -5,7 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+/**
+ * Слушатель TCP соединения
+ */
 public class TcpListener extends Thread {
+
     private InputStream inputStream;
     private String exitCommand;
 

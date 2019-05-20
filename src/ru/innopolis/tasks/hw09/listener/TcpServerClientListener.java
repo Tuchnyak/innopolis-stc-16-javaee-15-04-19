@@ -27,11 +27,17 @@ public class TcpServerClientListener implements Runnable {
      * Сокет на клиента, присылающего сообщения
      */
     private Socket clientSocket;
+
     /**
      * Отображение сокетов на их имена
      */
     private Map<Socket, String> serverSocketsMap;
+
+    /**
+     * Отображение сокетов на их выходные потоки
+     */
     private ConcurrentHashMap<Socket, PrintWriter> serverSocketsOutput;
+
     /**
      * Очередь общих сообщений
      */
@@ -57,14 +63,6 @@ public class TcpServerClientListener implements Runnable {
     public void run() {
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
-
-            /*
-            String socketName = reader.readLine();
-            System.out.println(">>> Имя сокета " + socketName);
-            serverSocketsMap.put(socket, socketName);
-            System.out.println(">>> Сокет добавлен, имя: " + serverSocketsMap.get(socket));
-             */
-
 
             String msg;
             boolean isFirstLineFromClient = true;

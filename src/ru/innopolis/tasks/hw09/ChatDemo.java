@@ -16,13 +16,12 @@ import java.io.IOException;
  * b.      добавить возможность выхода из чата с помощью написанной в чате команды «quit»
  */
 public class ChatDemo {
-
-
-
+    /**
+     * Запуск сервера
+     */
     public static void main(String[] args) {
 
         new Server().start();
 
     }
-
 }

@@ -13,14 +13,32 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
+/**
+ * Сервер для приёма и рассылки сообщений от клиентов
+ */
 public class Server extends Thread {
 
     private static final String PROPERTIES_PATH = "./src/ru/innopolis/tasks/hw09/app.properties";
     private static final Properties PROPERTIES = new Properties();
+
+    /**
+     * Команда прекращения работы сервера
+     */
     private static final String EXIT_COMMAND = "STOP";
+
+    /**
+     * Пул для сервисных потоков
+     */
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool();
 
+    /**
+     * Флаг продолжения работы
+     */
     private volatile static boolean isServerRun = true;
+
+    /**
+     * Знак личного сообщения
+     */
     private static String sendToSign;
 
     static {
@@ -35,15 +53,32 @@ public class Server extends Thread {
      * Отображение сокетов на их имена
      */
     private ConcurrentHashMap<Socket, String> serverSocketsMap = new ConcurrentHashMap<>();
+
+    /**
+     * Отображение сокетов на их исходящие потоки,чтобы держать их открытыми
+     */
     private ConcurrentHashMap<Socket, PrintWriter> serverSocketsOutput = new ConcurrentHashMap<>();
+
     /**
      * Очередь общих сообщений
      */
     private ConcurrentLinkedQueue<String> msgsQueue = new ConcurrentLinkedQueue<>();
 
+    /**
+     * Порт сервера
+     */
     private final int port;
+    /**
+     * Хост сервера
+     */
     private final String host;
+    /**
+     * Широковещательный адрес
+     */
     private final String broadcastIp;
+    /**
+     * Широковещательный порт
+     */
     private final int broadcastPort;
 
     public Server() {
@@ -92,11 +127,12 @@ public class Server extends Thread {
                     if (!msgsQueue.isEmpty()) {
                         String msg = msgsQueue.poll();
                         if (msg.contains(sendToSign)) {
+                            String from = msg.substring(0, msg.indexOf(":"));
                             String clearMsg = msg.substring(msg.indexOf("@"));
                             String sendTo = clearMsg.substring(1, clearMsg.indexOf(" "));
                             clearMsg = clearMsg.substring(clearMsg.indexOf(" ") + 1);
                             if (serverSocketsMap.containsValue(sendTo)) {
-                                sendUnicastMessage(sendTo, clearMsg, serverSocketsMap, serverSocketsOutput);
+                                sendUnicastMessage(from, sendTo, clearMsg, serverSocketsMap, serverSocketsOutput);
                             }
                         } else {
                             sendBroadcastMessage(msg, datagramSocket);
@@ -124,7 +160,16 @@ public class Server extends Thread {
 
     }
 
-    private void sendUnicastMessage(String sendTo,
+    /**
+     * Рассылка личных сообщений
+     *
+     * @param from                имя автора
+     * @param sendTo              имя адресата
+     * @param msg                 сообщение
+     * @param serverSocketsMap    отображение сокетов на имена
+     * @param serverSocketsOutput отображение сокетов на исходящие потоки для отправки
+     */
+    private void sendUnicastMessage(String from, String sendTo,
                                     String msg,
                                     ConcurrentHashMap<Socket, String> serverSocketsMap,
                                     ConcurrentHashMap<Socket, PrintWriter> serverSocketsOutput) {
@@ -137,13 +182,19 @@ public class Server extends Thread {
             StringBuilder sb = new StringBuilder();
             sb.append("Personal message for ");
             sb.append(sendToSign);
-            sb.append(sendTo).append(": ");
+            sb.append(sendTo).append(" from @").append(from).append(": ");
             sb.append(msg);
             writer.println(sb.toString());
             writer.flush();
         }
     }
 
+    /**
+     * Рассылка широковещательных сообщений
+     *
+     * @param msg            сообщение для рассылки
+     * @param datagramSocket широковещательный сокет
+     */
     private void sendBroadcastMessage(String msg, DatagramSocket datagramSocket) {
         byte[] buff = msg.getBytes();
         try {

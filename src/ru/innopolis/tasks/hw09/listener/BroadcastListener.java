@@ -3,6 +3,9 @@ package ru.innopolis.tasks.hw09.listener;
 import java.io.IOException;
 import java.net.*;
 
+/**
+ * Широковещательный слушатель
+ */
 public class BroadcastListener extends Thread {
 
     private static final int RECEIVE_TIMEOUT = 60000;
@@ -46,6 +49,9 @@ public class BroadcastListener extends Thread {
         }
     }
 
+    /**
+     * Прекращение работы слушателя
+     */
     public void stopListener() {
         isRunning = false;
     }
