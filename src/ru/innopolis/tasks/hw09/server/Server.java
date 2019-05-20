@@ -35,6 +35,7 @@ public class Server extends Thread {
      * Отображение сокетов на их имена
      */
     private ConcurrentHashMap<Socket, String> serverSocketsMap = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Socket, PrintWriter> serverSocketsOutput = new ConcurrentHashMap<>();
     /**
      * Очередь общих сообщений
      */
@@ -69,7 +70,7 @@ public class Server extends Thread {
                         socket = serverSocket.accept();
                         System.out.println(">>> Сокет получен");
                         if (!serverSocketsMap.containsKey(socket)) {
-                            EXECUTOR_SERVICE.execute(new TcpServerClientListener(socket, serverSocketsMap, msgsQueue));
+                            EXECUTOR_SERVICE.execute(new TcpServerClientListener(socket, serverSocketsMap, serverSocketsOutput, msgsQueue));
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -95,7 +96,7 @@ public class Server extends Thread {
                             String sendTo = clearMsg.substring(1, clearMsg.indexOf(" "));
                             clearMsg = clearMsg.substring(clearMsg.indexOf(" ") + 1);
                             if (serverSocketsMap.containsValue(sendTo)) {
-                                sendUnicastMessage(sendTo, clearMsg, serverSocketsMap);
+                                sendUnicastMessage(sendTo, clearMsg, serverSocketsMap, serverSocketsOutput);
                             }
                         } else {
                             sendBroadcastMessage(msg, datagramSocket);
@@ -123,24 +124,23 @@ public class Server extends Thread {
 
     }
 
-    private void sendUnicastMessage(String sendTo, String msg, ConcurrentHashMap<Socket, String> serverSocketsMap) {
+    private void sendUnicastMessage(String sendTo,
+                                    String msg,
+                                    ConcurrentHashMap<Socket, String> serverSocketsMap,
+                                    ConcurrentHashMap<Socket, PrintWriter> serverSocketsOutput) {
         List<Map.Entry<Socket, String>> sendToList = serverSocketsMap.entrySet()
                 .stream()
                 .filter(entry -> entry.getValue().equalsIgnoreCase(sendTo))
                 .collect(Collectors.toList());
         for (Map.Entry<Socket, String> entry : sendToList) {
-            Socket socket = entry.getKey();
-            try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()))){
-                StringBuilder sb = new StringBuilder();
-                sb.append("Personal message for ");
-                sb.append(sendToSign);
-                sb.append(sendTo).append(": ");
-                sb.append(msg);
-                writer.write(sb.toString().concat("\n"));
-                writer.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            PrintWriter writer = serverSocketsOutput.get(entry.getKey());
+            StringBuilder sb = new StringBuilder();
+            sb.append("Personal message for ");
+            sb.append(sendToSign);
+            sb.append(sendTo).append(": ");
+            sb.append(msg);
+            writer.println(sb.toString());
+            writer.flush();
         }
     }
 

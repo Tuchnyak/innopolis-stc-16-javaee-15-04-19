@@ -3,6 +3,7 @@ package ru.innopolis.tasks.hw09.listener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Map;
 import java.util.Queue;
@@ -30,20 +31,24 @@ public class TcpServerClientListener implements Runnable {
      * Отображение сокетов на их имена
      */
     private Map<Socket, String> serverSocketsMap;
+    private ConcurrentHashMap<Socket, PrintWriter> serverSocketsOutput;
     /**
      * Очередь общих сообщений
      */
     private Queue<String> msgsQueue;
 
     public <T extends ConcurrentHashMap<Socket, String>,
+            D extends ConcurrentHashMap<Socket, PrintWriter>,
             E extends ConcurrentLinkedQueue<String>> TcpServerClientListener
             (
                     Socket clientSocket,
                     T serverSocketsMap,
+                    D serverSocketsOutput,
                     E msgsQueue
             ) {
         this.clientSocket = clientSocket;
         this.serverSocketsMap = serverSocketsMap;
+        this.serverSocketsOutput = serverSocketsOutput;
         this.msgsQueue = msgsQueue;
         System.out.println(">>> Слушатель клиента создан");
     }
@@ -67,6 +72,7 @@ public class TcpServerClientListener implements Runnable {
                 if (isFirstLineFromClient) {
                     System.out.println(">>> Имя сокета " + msg);
                     serverSocketsMap.put(clientSocket, msg);
+                    serverSocketsOutput.put(clientSocket, new PrintWriter(clientSocket.getOutputStream()));
                     System.out.println(">>> Сокет добавлен, имя: " + serverSocketsMap.get(clientSocket));
                     isFirstLineFromClient = false;
                 } else {
