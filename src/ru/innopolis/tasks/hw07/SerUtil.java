@@ -136,7 +136,6 @@ public class SerUtil {
                 }
                 dos.flush();
             }
-
         } catch (IOException | IllegalAccessException e) {
             e.printStackTrace();
         }
