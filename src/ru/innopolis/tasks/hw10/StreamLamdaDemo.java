@@ -5,4 +5,9 @@ package ru.innopolis.tasks.hw10;
  * где это уместно (возможно, жертвуя производительностью)
  */
 public class StreamLamdaDemo {
+
+    /*
+     см. ДЗ09
+    */
+
 }
