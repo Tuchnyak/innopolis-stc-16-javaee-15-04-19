@@ -127,7 +127,7 @@ public class TextFilesGenerator {
      *
      * @return абзац случайных предложений
      */
-    private static String genParagraph() {
+    public static String genParagraph() {
         int min = 1;
         int max = 20;
         String endOfParapgraph = "\n\r";
