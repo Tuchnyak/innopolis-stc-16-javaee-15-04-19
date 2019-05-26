@@ -93,9 +93,10 @@ public class ExecutionUtil {
      */
     public static void savePointDemoNoException(Connection cn) {
         Savepoint savepointA = null;
+        Statement st = null;
         try {
             cn.setAutoCommit(false);
-            Statement st = cn.createStatement();
+            st = cn.createStatement();
             st.executeUpdate(
                     "INSERT INTO public.users(user_name, login_id, city, email, description) " +
                             "VALUES ('Winston Churchill',900,'London','smoker@vi.uk','Prime minister of Grate Britain')"
@@ -113,6 +114,9 @@ public class ExecutionUtil {
         } finally {
             try {
                 cn.setAutoCommit(true);
+                if (st != null) {
+                    st.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -126,9 +130,10 @@ public class ExecutionUtil {
      */
     public static void savePointDemoWithException(Connection cn) {
         Savepoint savepoint = null;
+        Statement st = null;
         try {
             cn.setAutoCommit(false);
-            Statement st = cn.createStatement();
+            st = cn.createStatement();
             st.executeUpdate(
                     "INSERT INTO public.users(user_name, login_id, city, email, description) " +
                             "VALUES ('Clark Kent',1000,'NY','super@dc.com','Extraterrestrial man')"
@@ -144,6 +149,9 @@ public class ExecutionUtil {
         } finally {
             try {
                 cn.setAutoCommit(true);
+                if (st != null) {
+                    st.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
