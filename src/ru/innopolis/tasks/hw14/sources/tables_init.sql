@@ -37,6 +37,18 @@ CREATE TABLE public.user_role
         OIDS= FALSE
     );
 
+CREATE TABLE public.logs
+(
+    id          serial        NOT NULL,
+    "date"      date          NULL,
+    log_level   varchar(5)    NULL,
+    message     varchar(255)  NULL,
+    "exception" varchar(2000) NULL
+)
+    WITH (
+        OIDS= FALSE
+    );
+
 INSERT INTO public.users(user_name, login_id, city, email, description)
 values ('Rachel Green', 123, 'NY', 'green@friends.com', 'Very bad waitress');
 INSERT INTO public.users(user_name, login_id, city, email, description)

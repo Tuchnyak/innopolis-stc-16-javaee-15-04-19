@@ -18,8 +18,8 @@ public class GcDemo {
 
     public static void main(String[] args) {
 
-//        getOutOfMemoryErrorSimple();
-        getOutOfMemoryErrorMetaSpace();
+        getOutOfMemoryErrorSimple();
+//        getOutOfMemoryErrorMetaSpace();
 
     }
 
