@@ -29,8 +29,11 @@ public class PropsUtil {
             LoggerUtil.LOGGER.info(">>> Properties have been loaded");
         } catch (IOException e) {
             PROPERTIES.setProperty(ERROR_KEY, ERROR_CODE_FAIL);
-            LoggerUtil.LOGGER.error(">>> Problems during loading porperty file", e);
+            LoggerUtil.LOGGER.error(">>> Problems during loading property file", e);
         }
+    }
+
+    private PropsUtil() {
     }
 
     public static String getDataBaseConnectionUrl() {

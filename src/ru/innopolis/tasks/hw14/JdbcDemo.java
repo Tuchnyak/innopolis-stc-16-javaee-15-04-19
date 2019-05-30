@@ -1,5 +1,6 @@
 package ru.innopolis.tasks.hw14;
 
+import ru.innopolis.tasks.hw14.logger.LoggerUtil;
 import ru.innopolis.tasks.hw14.properties.PropsUtil;
 
 import java.sql.Connection;
@@ -25,17 +26,17 @@ public class JdbcDemo {
         if (PropsUtil.getErrorCode().equals(PropsUtil.ERROR_CODE_SUCCESS)) {
             connection = ConnectionUtil.getConnection();
             if (connection != null) {
-//                ExecutionUtil.preparedStatementDemo(connection);
-//                ExecutionUtil.batchDemo(connection);
+                ExecutionUtil.preparedStatementDemo(connection);
+                ExecutionUtil.batchDemo(connection);
                 ExecutionUtil.paramGetDemo("Rachel", 123, connection);
-//                ExecutionUtil.savePointDemoNoException(connection);
-//                ExecutionUtil.savePointDemoWithException(connection);
+                ExecutionUtil.savePointDemoNoException(connection);
+                ExecutionUtil.savePointDemoWithException(connection);
                 ConnectionUtil.closeConnection(connection);
             } else {
-                System.out.println(">>> Подключение к БД не было установлено!");
+                LoggerUtil.LOGGER.warn(">>> Подключение к БД не было установлено!");
             }
         } else {
-            System.out.println(">>> Возникла проблема при загрузке файла-настроек!");
+            LoggerUtil.LOGGER.warn(">>> Возникла проблема при загрузке файла-настроек!");
         }
     }
 

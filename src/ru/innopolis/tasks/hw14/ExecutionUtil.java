@@ -1,7 +1,9 @@
 package ru.innopolis.tasks.hw14;
 
+import org.apache.log4j.NDC;
 import ru.innopolis.tasks.hw14.logger.LoggerUtil;
 
+import java.security.SecureRandom;
 import java.sql.*;
 import java.util.Arrays;
 
@@ -17,18 +19,30 @@ public class ExecutionUtil {
      * @throws SQLException
      */
     public static void preparedStatementDemo(Connection cn) {
+        String name = null;
+        int loginId = 0;
         try (PreparedStatement pst = cn.prepareStatement(
                 "INSERT INTO public.users(user_name, login_id, city, email, description) values (?,?,?,?,?)")
         ) {
-            pst.setString(1, "Monica Geller");
-            pst.setInt(2, 100);
+            name = "Monica Geller";
+            loginId = getRandInt();
+
+            NDC.push(name);
+            NDC.push(String.valueOf(loginId));
+
+            pst.setString(1, name);
+            pst.setInt(2, loginId);
             pst.setString(3, "NY");
             pst.setString(4, "mon@friends.com");
             pst.setString(5, "Talented cook");
             int rows = pst.executeUpdate();
+
+            LoggerUtil.LOGGER.info(">>> Person has been added to DB");
             printRowsNumber(rows);
         } catch (SQLException e) {
             LoggerUtil.LOGGER.error(">>> Error in preparedStatementDemo():", e);
+        } finally {
+            NDC.remove();
         }
     }
 
@@ -42,6 +56,8 @@ public class ExecutionUtil {
         try (PreparedStatement pst = cn.prepareStatement(
                 "INSERT INTO public.roles(role_name, description) VALUES (?,?)")
         ) {
+            NDC.push("batchDemo method");
+
             pst.setString(1, "Administration");
             pst.setString(2, "Main role");
             pst.addBatch();
@@ -54,9 +70,11 @@ public class ExecutionUtil {
             pst.setString(2, "Account manager");
             pst.addBatch();
 
-            printRowsNumber(pst.executeBatch());
+            printRowsNumber((Object) pst.executeBatch());
         } catch (SQLException e) {
             LoggerUtil.LOGGER.error(">>> Error in batchDemo():", e);
+        } finally {
+            NDC.clear();
         }
     }
 
@@ -71,6 +89,9 @@ public class ExecutionUtil {
         try (PreparedStatement pst = cn.prepareStatement(
                 "SELECT * from public.users where user_name like '%'||?||'%' AND login_id=?")
         ) {
+            NDC.push(userName);
+            NDC.push(String.valueOf(loginId));
+
             pst.setString(1, userName);
             pst.setInt(2, loginId);
             ResultSet rs = pst.executeQuery();
@@ -81,10 +102,12 @@ public class ExecutionUtil {
                 sb.append("\tCity: ").append(rs.getString(4)).append("\n");
                 sb.append("\tEmail: ").append(rs.getString(5)).append("\n");
                 sb.append("\tDescription: ").append(rs.getString(6)).append("\n");
-                System.out.println(sb.toString());
+                LoggerUtil.LOGGER.info("User from a DB: ".concat(sb.toString()));
             }
         } catch (SQLException e) {
             LoggerUtil.LOGGER.error(">>> Error in paramGetDemo():", e);
+        } finally {
+            NDC.clear();
         }
     }
 
@@ -96,6 +119,7 @@ public class ExecutionUtil {
     public static void savePointDemoNoException(Connection cn) {
         Savepoint savepointA = null;
         Statement st = null;
+        NDC.push("method savePointDemoNoException()");
         try {
             cn.setAutoCommit(false);
             st = cn.createStatement();
@@ -122,6 +146,7 @@ public class ExecutionUtil {
             } catch (SQLException e) {
                 LoggerUtil.LOGGER.error(">>> Error during closing statement:", e);
             }
+            NDC.clear();
         }
     }
 
@@ -133,6 +158,7 @@ public class ExecutionUtil {
     public static void savePointDemoWithException(Connection cn) {
         Savepoint savepoint = null;
         Statement st = null;
+        NDC.push("method savePointDemoWithException()");
         try {
             cn.setAutoCommit(false);
             st = cn.createStatement();
@@ -157,6 +183,7 @@ public class ExecutionUtil {
             } catch (SQLException e) {
                 LoggerUtil.LOGGER.error(">>> Error during closing statement:", e);
             }
+            NDC.clear();
         }
     }
 
@@ -170,7 +197,9 @@ public class ExecutionUtil {
     private static void handleCatch(Connection cn, Savepoint savepoint, SQLException e) {
         LoggerUtil.LOGGER.error(">>> Error in savePointDemo:", e);
         try {
-            cn.rollback(savepoint);
+            if (savepoint != null) {
+                cn.rollback(savepoint);
+            }
             cn.commit();
         } catch (SQLException ex) {
             LoggerUtil.LOGGER.error(">>> Error during rollback to savepoint:", ex);
@@ -183,21 +212,23 @@ public class ExecutionUtil {
     }
 
     /**
-     * Печать количества задействованных в SQL-выражении строк
-     *
-     * @param rows количество строк
-     */
-    private static void printRowsNumber(int rows) {
-        System.out.println(">>> ".concat(String.valueOf(rows)).concat(" rows affected!"));
-    }
-
-    /**
      * Печать количества задействованных в SQL-выражении строк при выполнении batch процесса
      *
      * @param rows массив с количеством строк из каждого batch процесса
      */
-    private static void printRowsNumber(int[] rows) {
-        System.out.println(">>> ".concat(String.valueOf(Arrays.toString(rows))).concat(" rows affected!"));
+    private static void printRowsNumber(Object...rows) {
+        LoggerUtil.LOGGER.info(">>> ".concat(Arrays.toString(rows)).concat(" rows affected!"));
     }
+
+    /**
+     * Генерация положительного целого чисоа
+     *
+     * @return положительное целое число
+     */
+    private static int getRandInt() {
+        SecureRandom random = new SecureRandom();
+        return random.nextInt(Integer.MAX_VALUE);
+    }
+
 
 }
