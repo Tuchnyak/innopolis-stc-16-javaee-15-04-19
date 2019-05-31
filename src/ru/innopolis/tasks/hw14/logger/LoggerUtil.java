@@ -20,7 +20,7 @@ import org.apache.log4j.PropertyConfigurator;
  */
 public class LoggerUtil {
 
-    public static final Logger LOGGER = LogManager.getLogger("fileLogger");
+    public static final Logger LOGGER = LogManager.getLogger("myLogger");
 
     static {
         PropertyConfigurator.configure("./src/ru/innopolis/tasks/hw14/logger/log4j.properties");
