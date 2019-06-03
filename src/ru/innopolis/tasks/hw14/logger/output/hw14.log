@@ -1573,3 +1573,129 @@ Caused by: org.postgresql.util.PSQLException: ERROR: duplicate key value violate
 
 2019-06-01 00:02:21,086 [INFO ][main ][  myLogger][null] - >>> Connection has been closed
  
+2019-06-03 21:42:21,495 [INFO ][main ][  myLogger][null] - >>> Properties have been loaded
+ 
+2019-06-03 21:42:22,819 [INFO ][main ][  myLogger][null] - >>> Connection has been established
+ 
+2019-06-03 21:42:22,963 [INFO ][main ][  myLogger][Monica Geller 403569036] - >>> Person has been added to DB
+ 
+2019-06-03 21:42:22,975 [INFO ][main ][  myLogger][Monica Geller 403569036] - >>> [1] rows affected!
+ 
+2019-06-03 21:42:23,027 [ERROR][main ][  myLogger][batchDemo method] - >>> Error in batchDemo():
+ java.sql.BatchUpdateException: Batch entry 0 INSERT INTO public.roles(role_name, description) VALUES ('Administration','Main role') was aborted: ERROR: duplicate key value violates unique constraint "roles_un"
+  Detail: Key (role_name)=(Administration) already exists.  Call getNextException to see other errors in the batch.
+	at org.postgresql.jdbc.BatchResultHandler.handleCompletion(BatchResultHandler.java:166)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:492)
+	at org.postgresql.jdbc.PgStatement.executeBatch(PgStatement.java:840)
+	at org.postgresql.jdbc.PgPreparedStatement.executeBatch(PgPreparedStatement.java:1538)
+	at ru.innopolis.tasks.hw14.ExecutionUtil.batchDemo(ExecutionUtil.java:73)
+	at ru.innopolis.tasks.hw14.JdbcDemo.main(JdbcDemo.java:30)
+Caused by: org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "roles_un"
+  Detail: Key (role_name)=(Administration) already exists.
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2440)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2183)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:481)
+	... 4 more
+
+2019-06-03 21:42:23,141 [INFO ][main ][  myLogger][Rachel 123] - User from a DB: Name: Rachel Green
+	Login_ID: 123
+	City: NY
+	Email: green@friends.com
+	Description: Very bad waitress
+
+ 
+2019-06-03 21:42:23,166 [ERROR][main ][  myLogger][method savePointDemoNoException()] - >>> Error in savePointDemo:
+ org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "login_id_un"
+  Detail: Key (login_id)=(900) already exists.
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2440)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2183)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:308)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:441)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:365)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:307)
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:293)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:270)
+	at org.postgresql.jdbc.PgStatement.executeUpdate(PgStatement.java:244)
+	at ru.innopolis.tasks.hw14.ExecutionUtil.savePointDemoNoException(ExecutionUtil.java:126)
+	at ru.innopolis.tasks.hw14.JdbcDemo.main(JdbcDemo.java:32)
+
+2019-06-03 21:42:23,177 [ERROR][main ][  myLogger][method savePointDemoWithException()] - >>> Error in savePointDemo:
+ org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "login_id_un"
+  Detail: Key (login_id)=(1000) already exists.
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2440)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2183)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:308)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:441)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:365)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:307)
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:293)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:270)
+	at org.postgresql.jdbc.PgStatement.executeUpdate(PgStatement.java:244)
+	at ru.innopolis.tasks.hw14.ExecutionUtil.savePointDemoWithException(ExecutionUtil.java:165)
+	at ru.innopolis.tasks.hw14.JdbcDemo.main(JdbcDemo.java:33)
+
+2019-06-03 21:42:23,187 [INFO ][main ][  myLogger][null] - >>> Connection has been closed
+ 
+2019-06-03 21:42:51,685 [INFO ][main ][  myLogger][null] - >>> Properties have been loaded
+ 
+2019-06-03 21:42:52,246 [INFO ][main ][  myLogger][null] - >>> Connection has been established
+ 
+2019-06-03 21:42:52,274 [INFO ][main ][  myLogger][Monica Geller 1706330746] - >>> Person has been added to DB
+ 
+2019-06-03 21:42:52,285 [INFO ][main ][  myLogger][Monica Geller 1706330746] - >>> [1] rows affected!
+ 
+2019-06-03 21:42:52,307 [ERROR][main ][  myLogger][batchDemo method] - >>> Error in batchDemo():
+ java.sql.BatchUpdateException: Batch entry 0 INSERT INTO public.roles(role_name, description) VALUES ('Administration','Main role') was aborted: ERROR: duplicate key value violates unique constraint "roles_un"
+  Detail: Key (role_name)=(Administration) already exists.  Call getNextException to see other errors in the batch.
+	at org.postgresql.jdbc.BatchResultHandler.handleCompletion(BatchResultHandler.java:166)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:492)
+	at org.postgresql.jdbc.PgStatement.executeBatch(PgStatement.java:840)
+	at org.postgresql.jdbc.PgPreparedStatement.executeBatch(PgPreparedStatement.java:1538)
+	at ru.innopolis.tasks.hw14.ExecutionUtil.batchDemo(ExecutionUtil.java:73)
+	at ru.innopolis.tasks.hw14.JdbcDemo.main(JdbcDemo.java:30)
+Caused by: org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "roles_un"
+  Detail: Key (role_name)=(Administration) already exists.
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2440)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2183)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:481)
+	... 4 more
+
+2019-06-03 21:42:52,327 [INFO ][main ][  myLogger][Rachel 123] - User from a DB: Name: Rachel Green
+	Login_ID: 123
+	City: NY
+	Email: green@friends.com
+	Description: Very bad waitress
+
+ 
+2019-06-03 21:42:52,343 [ERROR][main ][  myLogger][method savePointDemoNoException()] - >>> Error in savePointDemo:
+ org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "login_id_un"
+  Detail: Key (login_id)=(900) already exists.
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2440)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2183)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:308)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:441)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:365)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:307)
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:293)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:270)
+	at org.postgresql.jdbc.PgStatement.executeUpdate(PgStatement.java:244)
+	at ru.innopolis.tasks.hw14.ExecutionUtil.savePointDemoNoException(ExecutionUtil.java:126)
+	at ru.innopolis.tasks.hw14.JdbcDemo.main(JdbcDemo.java:32)
+
+2019-06-03 21:42:52,354 [ERROR][main ][  myLogger][method savePointDemoWithException()] - >>> Error in savePointDemo:
+ org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "login_id_un"
+  Detail: Key (login_id)=(1000) already exists.
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2440)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2183)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:308)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:441)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:365)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:307)
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:293)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:270)
+	at org.postgresql.jdbc.PgStatement.executeUpdate(PgStatement.java:244)
+	at ru.innopolis.tasks.hw14.ExecutionUtil.savePointDemoWithException(ExecutionUtil.java:165)
+	at ru.innopolis.tasks.hw14.JdbcDemo.main(JdbcDemo.java:33)
+
+2019-06-03 21:42:52,364 [INFO ][main ][  myLogger][null] - >>> Connection has been closed
+ 
