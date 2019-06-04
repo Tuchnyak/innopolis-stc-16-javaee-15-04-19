@@ -1734,3 +1734,53 @@ Caused by: org.postgresql.util.PSQLException: ERROR: duplicate key value violate
 
 2019-06-04 22:27:15,021 [INFO ][main ][  myLogger][null] - >>> Connection has been closed
  
+2019-06-04 22:30:29,050 [INFO ][main ][  myLogger][null] - >>> Properties have been loaded
+ 
+2019-06-04 22:30:29,154 [INFO ][main ][  myLogger][null] - >>> Connection has been established
+ 
+2019-06-04 22:30:29,169 [INFO ][main ][  myLogger][Monica Geller 1177998021] - >>> Person has been added to DB
+ 
+2019-06-04 22:30:29,181 [INFO ][main ][  myLogger][Monica Geller 1177998021] - >>> [1] rows affected!
+ 
+2019-06-04 22:30:29,199 [ERROR][main ][  myLogger][batchDemo method] - >>> Error in batchDemo():
+ java.sql.BatchUpdateException: Batch entry 0 INSERT INTO public.roles(role_name, description) VALUES ('Administration','Main role') was aborted.  Call getNextException to see the cause.
+	at org.postgresql.jdbc2.AbstractJdbc2Statement$BatchResultHandler.handleError(AbstractJdbc2Statement.java:2621)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:1837)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:407)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.executeBatch(AbstractJdbc2Statement.java:2754)
+	at ru.innopolis.tasks.hw14.ExecutionUtil.batchDemo(ExecutionUtil.java:73)
+	at ru.innopolis.tasks.hw14.JdbcDemo.main(JdbcDemo.java:30)
+
+2019-06-04 22:30:29,225 [INFO ][main ][  myLogger][Rachel 123] - User from a DB: Name: Rachel Green
+	Login_ID: 123
+	City: NY
+	Email: green@friends.com
+	Description: Very bad waitress
+
+ 
+2019-06-04 22:30:29,237 [ERROR][main ][  myLogger][method savePointDemoNoException()] - >>> Error in savePointDemo:
+ org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "login_id_un"
+  Detail: Key (login_id)=(900) already exists.
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2103)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:1836)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:257)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.execute(AbstractJdbc2Statement.java:512)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.executeWithFlags(AbstractJdbc2Statement.java:374)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.executeUpdate(AbstractJdbc2Statement.java:302)
+	at ru.innopolis.tasks.hw14.ExecutionUtil.savePointDemoNoException(ExecutionUtil.java:126)
+	at ru.innopolis.tasks.hw14.JdbcDemo.main(JdbcDemo.java:32)
+
+2019-06-04 22:30:29,248 [ERROR][main ][  myLogger][method savePointDemoWithException()] - >>> Error in savePointDemo:
+ org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "login_id_un"
+  Detail: Key (login_id)=(1000) already exists.
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2103)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:1836)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:257)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.execute(AbstractJdbc2Statement.java:512)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.executeWithFlags(AbstractJdbc2Statement.java:374)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.executeUpdate(AbstractJdbc2Statement.java:302)
+	at ru.innopolis.tasks.hw14.ExecutionUtil.savePointDemoWithException(ExecutionUtil.java:165)
+	at ru.innopolis.tasks.hw14.JdbcDemo.main(JdbcDemo.java:33)
+
+2019-06-04 22:30:29,258 [INFO ][main ][  myLogger][null] - >>> Connection has been closed
+ 
