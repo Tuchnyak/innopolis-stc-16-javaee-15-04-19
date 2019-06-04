@@ -23,7 +23,7 @@ public class LoggerUtil {
     public static final Logger LOGGER = LogManager.getLogger("myLogger");
 
     static { //todo азнести всё по веткам!
-        PropertyConfigurator.configure("./src/ru/innopolis/tasks/hw14/logger/log4j.properties");
+        PropertyConfigurator.configure("./src/main/java/ru/innopolis/tasks/hw14/logger/log4j.properties");
     }
 
 }

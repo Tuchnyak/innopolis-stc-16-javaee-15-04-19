@@ -33,7 +33,7 @@ import java.util.List;
  */
 public class ClassLoaderDemo {
 
-    private static final String PATH_TO_JAVA_FILE = "./src/ru/innopolis/tasks/hw08/somePackage/SomeClass.java";
+    private static final String PATH_TO_JAVA_FILE = "./src/main/java/ru/innopolis/tasks/hw08/somePackage/SomeClass.java";
     private static final String METHOD_NAME = "doWork()";
 
     public static void main(String[] args) {

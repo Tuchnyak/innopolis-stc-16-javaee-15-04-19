@@ -25,13 +25,13 @@ public class SerializationDemo {
     /**
      * Константа для пути к файлу для первого задания
      */
-    private static final String FILE_TASK_01 = "./src/ru/innopolis/tasks/hw07/files/file_task01.bin";
-    private static final String FILE_TASK_01_REFLECTION = "./src/ru/innopolis/tasks/hw07/files/file_task01_reflection.bin";
+    private static final String FILE_TASK_01 = "./src/main/java/ru/innopolis/tasks/hw07/files/file_task01.bin";
+    private static final String FILE_TASK_01_REFLECTION = "./src/main/java/ru/innopolis/tasks/hw07/files/file_task01_reflection.bin";
 
     /**
      * Константа для пути к файлу для второго задания
      */
-    private static final String FILE_TASK_02 = "./src/ru/innopolis/tasks/hw07/files/file_task02.bin";
+    private static final String FILE_TASK_02 = "./src/main/java/ru/innopolis/tasks/hw07/files/file_task02.bin";
 
     public static void main(String[] args) {
 

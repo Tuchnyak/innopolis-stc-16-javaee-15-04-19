@@ -18,7 +18,7 @@ public class PropsUtil {
     public static final String ERROR_CODE_SUCCESS = "0";
     public static final String ERROR_CODE_FAIL = "1";
 
-    private static final String PROPERTIES_FILE = "./src/ru/innopolis/tasks/hw13/properties/props.properties";
+    private static final String PROPERTIES_FILE = "./src/main/java/ru/innopolis/tasks/hw13/properties/props.properties";
 
     static {
         try {
