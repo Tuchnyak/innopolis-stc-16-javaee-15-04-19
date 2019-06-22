@@ -1,6 +1,6 @@
-package ru.innopolis.stc16.tasks.hw17.dao.jdbc;
+package ru.innopolis.stc16.tasks.hw18.dao.jdbc;
 
-import ru.innopolis.stc16.tasks.hw17.dao.ConnectionManager;
+import ru.innopolis.stc16.tasks.hw18.dao.ConnectionManager;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

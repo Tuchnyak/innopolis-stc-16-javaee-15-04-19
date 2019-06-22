@@ -1,7 +1,7 @@
-package ru.innopolis.stc16.tasks.hw17.servlet;
+package ru.innopolis.stc16.tasks.hw18.servlet;
 
-import ru.innopolis.stc16.tasks.hw17.service.UserService;
-import ru.innopolis.stc16.tasks.hw17.service.UserServiceImpl;
+import ru.innopolis.stc16.tasks.hw18.service.UserService;
+import ru.innopolis.stc16.tasks.hw18.service.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

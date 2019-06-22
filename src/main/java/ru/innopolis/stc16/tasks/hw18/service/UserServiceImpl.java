@@ -1,8 +1,8 @@
-package ru.innopolis.stc16.tasks.hw17.service;
+package ru.innopolis.stc16.tasks.hw18.service;
 
-import ru.innopolis.stc16.tasks.hw17.dao.UserDAO;
-import ru.innopolis.stc16.tasks.hw17.dao.jdbc.UserDAOImpl;
-import ru.innopolis.stc16.tasks.hw17.entity.User;
+import ru.innopolis.stc16.tasks.hw18.dao.UserDAO;
+import ru.innopolis.stc16.tasks.hw18.dao.jdbc.UserDAOImpl;
+import ru.innopolis.stc16.tasks.hw18.entity.User;
 
 import java.sql.Connection;
 import java.util.logging.Logger;

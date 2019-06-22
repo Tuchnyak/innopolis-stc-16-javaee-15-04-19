@@ -4,6 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <!--
+    1) Добавить сущности в бд дополнительные поля: emai, телефон,
+
+    2) Доработать приложение с занятия для отображения списка студентов в табличном виде.
+
+    3) Сделать единый шаблон для страниц.
+
+    4) По возможности стараться использовать JSTL.
+     -->
+
     <groupId>groupId</groupId>
     <artifactId>innopolis-v3-stc-16-javaee-15-04-19</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -43,6 +53,24 @@
             <artifactId>javax.servlet-api</artifactId>
             <version>4.0.1</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>javax.servlet.jsp-api</artifactId>
+            <version>2.3.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet.jsp.jstl</groupId>
+            <artifactId>jstl-api</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
         </dependency>
 
         <dependency>

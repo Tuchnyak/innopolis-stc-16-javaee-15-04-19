@@ -1,7 +1,7 @@
-package ru.innopolis.stc16.tasks.hw17.servlet;
+package ru.innopolis.stc16.tasks.hw18.servlet;
 
-import ru.innopolis.stc16.tasks.hw17.service.PersonService;
-import ru.innopolis.stc16.tasks.hw17.service.PersonServiceImpl;
+import ru.innopolis.stc16.tasks.hw18.service.PersonService;
+import ru.innopolis.stc16.tasks.hw18.service.PersonServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,7 +33,9 @@ public class PersonServlet extends HttpServlet {
         req.setCharacterEncoding("utf-8");
         String name = req.getParameter("name");
         String birth = req.getParameter("birth");
-        personService.addPerson(name, birth);
+        String email = req.getParameter("email");
+        String phone = req.getParameter("phone");
+        personService.addPerson(name, birth, email, phone);
 
         resp.sendRedirect(req.getContextPath() + "/person/list");
     }

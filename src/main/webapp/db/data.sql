@@ -4,7 +4,9 @@ CREATE TABLE person
 (
     id         INT NOT NULL AUTO_INCREMENT,
     name       VARCHAR(250),
-    birth_date LONG(250)
+    birth_date LONG(250),
+    email      VARCHAR(250),
+    phone      VARCHAR(20)
 );
 
 CREATE TABLE user
@@ -15,11 +17,11 @@ CREATE TABLE user
 );
 
 -- insert some students
-insert into person (name, birth_date)
-VALUES ('Alexander Grinevsky', -2820873600000);
+insert into person (name, birth_date, email, phone)
+VALUES ('Alexander Grinevsky', -2820873600000, 'not yet invented', '');
 
-insert into person (name, birth_date)
-VALUES ('Alex Grin', -2820873600000);
+insert into person (name, birth_date, email, phone)
+VALUES ('Alex Grin', -2820873600000, 'not yet invented', '');
 
 -- insert users
 insert into user (name, password)
