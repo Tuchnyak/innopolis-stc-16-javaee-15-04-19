@@ -1,8 +1,8 @@
-package ru.innopolis.stc16.tasks.hw18.service;
+package ru.innopolis.stc16.tasks.hw19.service;
 
-import ru.innopolis.stc16.tasks.hw18.dao.PersonDAO;
-import ru.innopolis.stc16.tasks.hw18.dao.jdbc.PersonDAOImpl;
-import ru.innopolis.stc16.tasks.hw18.entity.Person;
+import ru.innopolis.stc16.tasks.hw19.dao.PersonDAO;
+import ru.innopolis.stc16.tasks.hw19.dao.jdbc.PersonDAOImpl;
+import ru.innopolis.stc16.tasks.hw19.entity.Person;
 
 import java.sql.Connection;
 import java.text.DateFormat;
@@ -28,13 +28,11 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public boolean addPerson(String name, String birth, String email, String phone) {
-        Person person = new Person();
-        person.setName(name);
-        person.setEmail(email);
-        person.setPhone(phone);
-
-        Date date = safeParseDate(birth);
-        person.setBirthDate(date);
+        Person person = new Person.Builder(name)
+                .withBirthDate(safeParseDate(birth))
+                .withEmail(email)
+                .withPhone(phone).build();
+        
         return personDAO.addPerson(person);
     }
 

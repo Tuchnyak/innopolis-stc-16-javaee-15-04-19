@@ -1,4 +1,4 @@
-package ru.innopolis.stc16.tasks.hw18.dao;
+package ru.innopolis.stc16.tasks.hw19.dao;
 
 import java.sql.Connection;
 

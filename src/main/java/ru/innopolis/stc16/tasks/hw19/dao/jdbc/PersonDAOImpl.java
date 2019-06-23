@@ -1,7 +1,7 @@
-package ru.innopolis.stc16.tasks.hw18.dao.jdbc;
+package ru.innopolis.stc16.tasks.hw19.dao.jdbc;
 
-import ru.innopolis.stc16.tasks.hw18.dao.PersonDAO;
-import ru.innopolis.stc16.tasks.hw18.entity.Person;
+import ru.innopolis.stc16.tasks.hw19.dao.PersonDAO;
+import ru.innopolis.stc16.tasks.hw19.entity.Person;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -28,13 +28,12 @@ public class PersonDAOImpl implements PersonDAO {
         try (PreparedStatement statement = connection.prepareStatement(SELECT_PERSON_SQL_TEMPLATE)) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    Person person = new Person();
+                    Person person = new Person.Builder(resultSet.getString(2))
+                            .withBirthDate(new Date(resultSet.getLong(3)))
+                            .withEmail(resultSet.getString(4))
+                            .withPhone(resultSet.getString(5))
+                            .build();
                     person.setId(resultSet.getInt(1));
-                    person.setName(resultSet.getString(2));
-                    person.setEmail(resultSet.getString(4));
-                    person.setPhone(resultSet.getString(5));
-                    Date date = new Date(resultSet.getLong(3));
-                    person.setBirthDate(date);
                     result.add(person);
                 }
             }

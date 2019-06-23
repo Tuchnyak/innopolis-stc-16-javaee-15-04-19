@@ -1,4 +1,4 @@
-package ru.innopolis.stc16.tasks.hw18.entity;
+package ru.innopolis.stc16.tasks.hw19.entity;
 
 import java.util.Date;
 import java.util.Objects;
@@ -9,6 +9,13 @@ public class Person {
     private Date birthDate;
     private String email;
     private String phone;
+
+    private Person(Builder builder) {
+        this.name = builder.name;
+        this.birthDate = builder.birthDate;
+        this.email = builder.email;
+        this.phone = builder.phone;
+    }
 
     public int getId() {
         return id;
@@ -22,32 +29,16 @@ public class Person {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Date getBirthDate() {
         return birthDate;
-    }
-
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPhone() {
         return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     @Override
@@ -76,5 +67,35 @@ public class Person {
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';
+    }
+
+    public static class Builder {
+        private String name;
+        private Date birthDate;
+        private String email;
+        private String phone;
+
+        public Builder(String name) {
+            this.name = name;
+        }
+
+        public Builder withBirthDate(Date birthDate) {
+            this.birthDate = birthDate;
+            return this;
+        }
+
+        public Builder withEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder withPhone(String phone) {
+            this.phone = phone;
+            return this;
+        }
+
+        public Person build() {
+            return new Person(this);
+        }
     }
 }

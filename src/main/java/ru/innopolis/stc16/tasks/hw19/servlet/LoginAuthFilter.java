@@ -1,4 +1,4 @@
-package ru.innopolis.stc16.tasks.hw18.servlet;
+package ru.innopolis.stc16.tasks.hw19.servlet;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
