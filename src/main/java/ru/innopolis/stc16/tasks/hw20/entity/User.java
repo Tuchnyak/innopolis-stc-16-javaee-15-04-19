@@ -1,4 +1,4 @@
-package ru.innopolis.stc16.tasks.hw19.entity;
+package ru.innopolis.stc16.tasks.hw20.entity;
 
 import java.util.Objects;
 

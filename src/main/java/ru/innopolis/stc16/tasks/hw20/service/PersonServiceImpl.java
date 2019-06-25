@@ -1,8 +1,9 @@
-package ru.innopolis.stc16.tasks.hw19.service;
+package ru.innopolis.stc16.tasks.hw20.service;
 
-import ru.innopolis.stc16.tasks.hw19.dao.PersonDAO;
-import ru.innopolis.stc16.tasks.hw19.dao.jdbc.PersonDAOImpl;
-import ru.innopolis.stc16.tasks.hw19.entity.Person;
+import ru.innopolis.stc16.tasks.hw20.dao.PersonDAO;
+import ru.innopolis.stc16.tasks.hw20.dao.jdbc.PersonDAOImpl;
+import ru.innopolis.stc16.tasks.hw20.dao.jdbc.PersonDAOProxy;
+import ru.innopolis.stc16.tasks.hw20.entity.Person;
 
 import java.sql.Connection;
 import java.text.DateFormat;
@@ -18,7 +19,7 @@ public class PersonServiceImpl implements PersonService {
     private final PersonDAO personDAO;
 
     public PersonServiceImpl(Connection con) {
-        personDAO = new PersonDAOImpl(con);
+        personDAO = new PersonDAOProxy(con);
     }
 
     @Override
@@ -32,7 +33,7 @@ public class PersonServiceImpl implements PersonService {
                 .withBirthDate(safeParseDate(birth))
                 .withEmail(email)
                 .withPhone(phone).build();
-        
+
         return personDAO.addPerson(person);
     }
 

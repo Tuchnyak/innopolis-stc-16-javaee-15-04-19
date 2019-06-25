@@ -1,8 +1,8 @@
-package ru.innopolis.stc16.tasks.hw19.servlet;
+package ru.innopolis.stc16.tasks.hw20.servlet;
 
-import ru.innopolis.stc16.tasks.hw19.entity.Person;
-import ru.innopolis.stc16.tasks.hw19.service.PersonService;
-import ru.innopolis.stc16.tasks.hw19.service.PersonServiceImpl;
+import ru.innopolis.stc16.tasks.hw20.entity.Person;
+import ru.innopolis.stc16.tasks.hw20.service.PersonService;
+import ru.innopolis.stc16.tasks.hw20.service.PersonServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

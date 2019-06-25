@@ -1,6 +1,6 @@
-package ru.innopolis.stc16.tasks.hw19.service;
+package ru.innopolis.stc16.tasks.hw20.service;
 
-import ru.innopolis.stc16.tasks.hw19.entity.Person;
+import ru.innopolis.stc16.tasks.hw20.entity.Person;
 
 import java.util.List;
 

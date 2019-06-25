@@ -1,4 +1,4 @@
-package ru.innopolis.stc16.tasks.hw19.servlet;
+package ru.innopolis.stc16.tasks.hw20.servlet;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;

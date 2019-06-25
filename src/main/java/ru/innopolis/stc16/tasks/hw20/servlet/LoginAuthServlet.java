@@ -1,30 +1,31 @@
-package ru.innopolis.stc16.tasks.hw19.servlet;
+package ru.innopolis.stc16.tasks.hw20.servlet;
 
-import ru.innopolis.stc16.tasks.hw19.service.PersonService;
-import ru.innopolis.stc16.tasks.hw19.service.PersonServiceImpl;
+import ru.innopolis.stc16.tasks.hw20.service.UserService;
+import ru.innopolis.stc16.tasks.hw20.service.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 
-@WebServlet("/person")
-public class PersonServlet extends HttpServlet {
-    private PersonService personService;
+@WebServlet("/login")
+public class LoginAuthServlet extends HttpServlet {
+    private UserService userService;
 
     @Override
     public void init() throws ServletException {
         Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
-        personService = new PersonServiceImpl(connection);
+        userService = new UserServiceImpl(connection);
         super.init();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/form.jsp")
+        req.getRequestDispatcher("/login.jsp")
                 .forward(req, resp);
     }
 
@@ -32,11 +33,16 @@ public class PersonServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("utf-8");
         String name = req.getParameter("name");
-        String birth = req.getParameter("birth");
-        String email = req.getParameter("email");
-        String phone = req.getParameter("phone");
-        personService.addPerson(name, birth, email, phone);
+        String password = req.getParameter("password");
+        boolean hasSuchUser = userService.checkUser(name, password);
 
-        resp.sendRedirect(req.getContextPath() + "/person/list");
+        HttpSession session = req.getSession();
+        if (hasSuchUser) {
+            session.setAttribute("user", name);
+        } else {
+            session.setAttribute("user", null);
+        }
+
+        resp.sendRedirect((String) session.getAttribute("urlToForward"));
     }
 }

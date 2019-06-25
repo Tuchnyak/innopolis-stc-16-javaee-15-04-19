@@ -1,7 +1,7 @@
-package ru.innopolis.stc16.tasks.hw19.dao.jdbc;
+package ru.innopolis.stc16.tasks.hw20.dao.jdbc;
 
-import ru.innopolis.stc16.tasks.hw19.dao.PersonDAO;
-import ru.innopolis.stc16.tasks.hw19.entity.Person;
+import ru.innopolis.stc16.tasks.hw20.dao.PersonDAO;
+import ru.innopolis.stc16.tasks.hw20.entity.Person;
 
 import java.sql.*;
 import java.util.ArrayList;

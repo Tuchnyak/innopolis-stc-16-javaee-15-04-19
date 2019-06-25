@@ -1,4 +1,4 @@
-package ru.innopolis.stc16.tasks.hw19.entity;
+package ru.innopolis.stc16.tasks.hw20.entity;
 
 import java.util.Date;
 import java.util.Objects;
@@ -15,6 +15,22 @@ public class Person {
         this.birthDate = builder.birthDate;
         this.email = builder.email;
         this.phone = builder.phone;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public int getId() {

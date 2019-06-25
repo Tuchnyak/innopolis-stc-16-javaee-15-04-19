@@ -1,4 +1,4 @@
-package ru.innopolis.stc16.tasks.hw19.service;
+package ru.innopolis.stc16.tasks.hw20.service;
 
 public interface UserService {
 

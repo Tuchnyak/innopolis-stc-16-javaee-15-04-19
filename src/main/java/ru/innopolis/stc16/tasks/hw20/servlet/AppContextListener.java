@@ -1,7 +1,7 @@
-package ru.innopolis.stc16.tasks.hw19.servlet;
+package ru.innopolis.stc16.tasks.hw20.servlet;
 
-import ru.innopolis.stc16.tasks.hw19.dao.ConnectionManager;
-import ru.innopolis.stc16.tasks.hw19.dao.jdbc.DBConnectionManager;
+import ru.innopolis.stc16.tasks.hw20.dao.ConnectionManager;
+import ru.innopolis.stc16.tasks.hw20.dao.jdbc.DBConnectionManager;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
