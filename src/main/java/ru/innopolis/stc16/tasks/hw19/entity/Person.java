@@ -10,11 +10,11 @@ public class Person {
     private String email;
     private String phone;
 
-    private Person(Builder builder) {
-        this.name = builder.name;
-        this.birthDate = builder.birthDate;
-        this.email = builder.email;
-        this.phone = builder.phone;
+    private Person() {
+//        this.name = builder.name;
+//        this.birthDate = builder.birthDate;
+//        this.email = builder.email;
+//        this.phone = builder.phone;
     }
 
     public int getId() {
@@ -69,33 +69,39 @@ public class Person {
                 '}';
     }
 
-    public static class Builder {
+    public static class Builder extends PersonBuilderTemplate {
         private String name;
         private Date birthDate;
         private String email;
         private String phone;
 
-        public Builder(String name) {
-            this.name = name;
+        @Override
+        public void setName(String arg) {
+            this.name = arg;
         }
 
-        public Builder withBirthDate(Date birthDate) {
-            this.birthDate = birthDate;
-            return this;
+        @Override
+        public void setBirthDate(String arg) {
+            this.birthDate = new Date(Long.parseLong(arg));
         }
 
-        public Builder withEmail(String email) {
-            this.email = email;
-            return this;
+        @Override
+        public void setEmail(String arg) {
+            this.email = arg;
         }
 
-        public Builder withPhone(String phone) {
-            this.phone = phone;
-            return this;
+        @Override
+        public void setPhone(String arg) {
+            this.phone = arg;
         }
 
         public Person build() {
-            return new Person(this);
+            Person p = new Person();
+            p.name = this.name;
+            p.birthDate = this.birthDate;
+            p.email = this.email;
+            p.phone = this.phone;
+            return p;
         }
     }
 }

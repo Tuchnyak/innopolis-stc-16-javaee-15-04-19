@@ -28,11 +28,13 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public boolean addPerson(String name, String birth, String email, String phone) {
-        Person person = new Person.Builder(name)
-                .withBirthDate(safeParseDate(birth))
-                .withEmail(email)
-                .withPhone(phone).build();
-        
+        Person person = new Person.Builder().run(
+                name,
+                String.valueOf(safeParseDate(birth).getTime()),
+                email,
+                phone
+        );
+
         return personDAO.addPerson(person);
     }
 

@@ -28,11 +28,12 @@ public class PersonDAOImpl implements PersonDAO {
         try (PreparedStatement statement = connection.prepareStatement(SELECT_PERSON_SQL_TEMPLATE)) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    Person person = new Person.Builder(resultSet.getString(2))
-                            .withBirthDate(new Date(resultSet.getLong(3)))
-                            .withEmail(resultSet.getString(4))
-                            .withPhone(resultSet.getString(5))
-                            .build();
+                    Person person = new Person.Builder().run(
+                            resultSet.getString(2),
+                            String.valueOf(resultSet.getLong(3)),
+                            resultSet.getString(4),
+                            resultSet.getString(5)
+                    );
                     person.setId(resultSet.getInt(1));
                     result.add(person);
                 }
